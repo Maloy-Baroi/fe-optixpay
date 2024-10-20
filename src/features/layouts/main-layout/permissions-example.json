@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "canViewDashboard": true,
+    "canViewTransactions": true,
+    "canViewPayIn": true,
+    "canApprovePayIn": false,
+    "canViewPayOut": true,
+    "canApprovePayOut": true,
+    "canViewPrepayment": false,
+    "canViewBalances": true,
+    "canManageSettings": true,
+    "canAddBankAccount": true,
+    "canViewBankAccounts": true,
+    "canManageSubUsers": false,
+    "canManage2FA": true,
+    "canViewInfo": true,
+    "canViewFAQ": true,
+    "canViewAppliedCommission": true
+  }
+}

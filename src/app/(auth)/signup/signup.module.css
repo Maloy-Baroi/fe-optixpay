@@ -1,0 +1,269 @@
+.signupPage {
+    /* Full size */
+    width: 100%;
+    height: 986px;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow-y: hidden;
+}
+
+.body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Gilroy', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow-y: hidden;
+}
+
+.signupFormContainer {
+    width: 519px;
+    height: fit-content;
+    border-radius: 10px;
+    margin: 20vh auto;
+    padding: 20px 40px 40px;
+    background: #FFF;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+}
+
+.logoContainer {
+    text-align: center !important;
+    margin: 15px auto !important;
+}
+
+.logoContainer img {
+    width: 156px;
+    height: 78px;
+    flex-shrink: 0;
+}
+
+.formRight i {
+    font-size: 100px;
+}
+
+.signupPageImage {
+    width: 100%;
+    height: 100%;
+}
+
+.labelStyle h3 {
+    color: rgb(15, 68, 104);
+    text-align: center;
+    font-family: Gilroy-Bold, sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 43px;
+    text-decoration: underline;
+}
+
+.labelStyle p {
+    color: #000000;
+    text-align: center;
+    font-family: Gilroy-Medium;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.signupInputField {
+    width: 100% !important;
+}
+
+.input_group {
+    width: 100%;
+    height: fit-content !important;
+    flex-shrink: 0;
+    overflow-y: visible !important;
+    margin-bottom: 20px !important;
+}
+
+.input_group label {
+    font-family: Gilroy-Medium, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 137.5% */
+}
+
+.input_group input {
+    display: flex;
+    width: 100%;
+    padding: 12px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    border: 1px solid #D9D9D9;
+    background: #FFF;
+}
+
+/* Style for the container that holds the input and eye icon */
+.passwordContainer {
+    display: flex;
+    align-items: center; /* Vertically align the input and icon */
+    position: relative;
+}
+
+/* Style for the input element */
+.passwordInput {
+    width: 100%; /* Take up all available width */
+    padding-right: 40px; /* Add some space on the right for the icon */
+}
+
+/* Style for the eye icon */
+.showPasswordIcon {
+    position: absolute;
+    top: 50%; /* Vertically center the icon within the container */
+    right: 10px; /* Adjust the right spacing as needed */
+    transform: translateY(-50%); /* Center the icon vertically */
+    cursor: pointer;
+}
+
+.bottomContainer {
+    margin: 0 !important;
+}
+
+.signupBtn {
+    display: flex;
+    color: #FFFFFF;
+    width: 100%;
+    height: fit-content;
+    padding: 16px 28px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    background: rgb(255 77 0);
+    box-shadow: 0 1px 2px 0 rgba(105, 81, 255, 0.05);
+}
+
+.signupBtn:hover {
+    display: flex;
+    color: #FFFFFF;
+    width: 100%;
+    height: fit-content;
+    padding: 16px 28px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    background: #ff4d00;
+    box-shadow: 0 1px 2px 0 rgba(105, 81, 255, 0.05);
+}
+
+.rememberMeLabel {
+    color: #0A191E;
+    font-family: Gilroy-Regular, sans-serif;
+    font-size: 15px !important;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px; /* 150% */
+}
+
+.forgetPasswordLabel {
+    color: #000;
+    text-align: right;
+    text-decoration: none !important;
+    font-family: Gilroy-SemiBold, sans-serif;
+    font-size: 15px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 18px; /* 150% */
+    margin: 5px auto 15px;
+}
+
+.forgetPasswordLabel:hover {
+    color: #255b6e;
+    font-weight: 700;
+}
+
+.signupTextContainer {
+    text-align: center;
+}
+
+.signupTextContainer p {
+    font-size: 0.875rem;
+}
+
+.signupTextContainer button {
+    color: #0A191E !important;
+    font-weight: 600 !important;
+}
+
+.signupModalIcon {
+    display: inline-flex;
+}
+
+.iconContainer {
+    margin: 0 20px;
+}
+
+.warningText {
+    color: red;
+    font-size: 11px;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+    .signupFormContainer {
+        width: 90%;
+    }
+}
+
+/* Responsive styles for even smaller screens */
+@media (max-width: 480px) {
+    .signupFormContainer {
+        width: 100%;
+        margin: 30px auto;
+        padding: 20px 20px 40px;
+    }
+
+    /* Style adjustments for the input elements */
+    .input_group input {
+        padding: 10px; /* Reduce padding for smaller screens */
+    }
+
+    /* Style adjustments for the signup button */
+    .signupBtn {
+        padding: 12px 20px; /* Adjust padding for smaller screens */
+    }
+
+    /* Style adjustments for the labels */
+    .labelStyle h3 {
+        font-size: 24px; /* Adjust font size */
+    }
+
+    .labelStyle p {
+        font-size: 16px; /* Adjust font size */
+    }
+
+    .rememberMeLabel,
+    .forgetPasswordLabel {
+        font-size: 12px; /* Adjust font size */
+    }
+
+    /* Style adjustments for the logo */
+    .logoContainer img {
+        width: 120px; /* Adjust width */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    /* Style adjustments for the eye icon */
+    .showPasswordIcon {
+        font-size: 24px; /* Adjust font size */
+        right: 5px; /* Adjust the right spacing */
+    }
+}
+

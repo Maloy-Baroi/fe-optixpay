@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+:root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-size: 14px;
+}
+
+a {
+  @apply underline cursor-pointer;
+}
+
+/* Sidebar Menu width fix */
+.ant-menu-inline-collapsed {
+  width: 79px !important;
+}
+
+/* Paragraph unnessary line space remove */
+p,
+h1,
+h2,
+h3,
+h4,
+h5 {
+  @apply m-0;
+}
