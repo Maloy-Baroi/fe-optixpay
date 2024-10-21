@@ -39,7 +39,7 @@ const depositBKashPayCreate = async (id_token, appKey, secretKey, username, pass
   const data = {
     "id_token": id_token,
     "x_app_key": appKey,
-    "callback_url": `http://optixpay.com/`,
+    "callback_url": `https://optixpay.com/`,
     // "secretKey": secretKey,
     "payer_reference": username,
     "amount": paymentAmount,

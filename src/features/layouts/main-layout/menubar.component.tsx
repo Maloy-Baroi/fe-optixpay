@@ -22,7 +22,7 @@ const Menu = ({ toggle }: MenuProps) => {
       const getUserPermissions = async () => {
         // Get the role from cookies
         const user_groups: string | undefined = Cookies.get("role"); // Changed to `string | undefined`
-          
+
         // Set the user group only if a valid value exists in the cookie
         if (user_groups) {
           setPermissions(user_groups);
@@ -33,7 +33,7 @@ const Menu = ({ toggle }: MenuProps) => {
         //     "https://raw.githubusercontent.com/abdarker/qrcode-gen/refs/heads/master/permissions.json"
         //   );
         //   const data = await response.json();
-          
+
         // } catch (error) {
         //   console.error("Failed to fetch permissions:", error);
         // }
@@ -58,7 +58,7 @@ const Menu = ({ toggle }: MenuProps) => {
               <Link
                 key={idx}
                 className={`nav-link flex items-center text-[#919eab] ${
-                  activeLink == item.path ? "text-white" : "text-[#919eab]"
+                  activeLink == item.path ? "text-[#FF4D00]" : "text-[#919eab]"
                 } font-medium py-2 px-6 transition-all duration-500 whitespace-nowrap hover:text-[#f4f6f8]`}
                 href={item.path}
                 onClick={toggle}
