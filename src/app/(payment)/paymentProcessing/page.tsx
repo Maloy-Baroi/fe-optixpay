@@ -1,11 +1,14 @@
 "use client";
-
 import { depositBKashPayGrant, initiatePayment } from "@/api/deposit";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import Cookies from "js-cookie";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
+
+const BACKEND_DOMAIN = process.env.NEXT_PUBLIC_DEVELOPMENT === "true"
+  ? "http://localhost:8000/api/v1"
+  : process.env.NEXT_PUBLIC_API_URL;
 
 const PaymentProcessing = () => {
   const router = useRouter();
@@ -38,7 +41,7 @@ const PaymentProcessing = () => {
 async function verifyMerchant(api_key: string, secret_key: string, payment_method:string) {
   try {
       const authToken = Cookies.get('accessToken');
-      const response = await fetch('http://localhost:8000/api/v1/app-merchant/merchants/verification/', {
+      const response = await fetch(`${BACKEND_DOMAIN}/api/v1/app-merchant/merchants/verification/`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',

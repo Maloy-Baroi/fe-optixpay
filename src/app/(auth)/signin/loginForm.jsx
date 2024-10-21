@@ -48,7 +48,7 @@ const LoginForm = () => {
 
                 // Redirect based on user type
                 if (data.new_user) {
-                    router.push('/profile-setup');
+                  router.push('/profile-setup');
                 } else {
                     router.push('/');
                 }

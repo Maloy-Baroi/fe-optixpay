@@ -3,10 +3,10 @@ import {
   DollarOutlined,
   DownloadOutlined,
   HomeOutlined,
-  LeftOutlined,
+  LeftOutlined, LinuxOutlined,
   PlusSquareOutlined,
   RightOutlined,
-  UploadOutlined,
+  UploadOutlined, UsergroupAddOutlined,
 } from "@ant-design/icons";
 
 export const menuItems = [
@@ -89,8 +89,14 @@ export const menuItems = [
       },
       {
         label: "Add Merchant",
-        icon: CreditCardOutlined,
+        icon: LinuxOutlined,
         path: "/create-merchant",
+        permission: "admin",
+      },
+      {
+        label: "Add Agent",
+        icon: UsergroupAddOutlined,
+        path: "/create-agent",
         permission: "admin",
       },
       //   {

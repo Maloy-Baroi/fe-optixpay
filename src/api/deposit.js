@@ -181,7 +181,7 @@ const checkUserPaidStatus = async (token) => {
 // Function to initiate payment
 export const initiatePayment = async (amount, orderId) => {
   try {
-    const response = await axios.post('http://localhost:8000/start-payment/', {
+    const response = await axios.post(`http://localhost:8000/start-payment/`, {
       amount: amount,
       order_id: orderId,
     });
