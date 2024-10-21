@@ -200,7 +200,7 @@ export const initiatePayment = async (amount, orderId) => {
 // Function to check payment callback
 export const verifyPayment = async (paymentId) => {
   try {
-    const response = await axios.get(`http://localhost:8000/payment-callback/?payment_id=${paymentId}`);
+    const response = await axios.get(`${BACKEND_DOMAIN}/payment-callback/?payment_id=${paymentId}`);
     console.log('Payment Callback Response:', response.data);
     return response.data;
   } catch (error) {

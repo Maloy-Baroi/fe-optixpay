@@ -42,7 +42,7 @@ export const createUserAndMerchant = async (user: UserValues, merchant: Merchant
 // Function to get merchants data
 export const getMerchants = async (token: string|undefined) => {
   try {
-    const response = await axios.get('http://localhost:8000/api/v1/app-merchant/merchants/', {
+    const response = await axios.get(`${BACKEND_DOMAIN}/app-merchant/merchants/`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`  // Replace with actual token or authorization header

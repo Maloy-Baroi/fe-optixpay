@@ -59,7 +59,7 @@ const Menu = ({ toggle }: MenuProps) => {
                 key={idx}
                 className={`nav-link flex items-center text-[#919eab] ${
                   activeLink == item.path ? "text-[#FF4D00]" : "text-[#919eab]"
-                } font-medium py-2 px-6 transition-all duration-500 whitespace-nowrap hover:text-[#f4f6f8]`}
+                } font-medium py-2 px-6 transition-all duration-500 whitespace-nowrap hover:text-[#FF4D00]`}
                 href={item.path}
                 onClick={toggle}
               >
