@@ -4,9 +4,9 @@ const BACKEND_DOMAIN = process.env.NEXT_PUBLIC_DEVELOPMENT === "true"
   ? "http://localhost:8000/api/v1"
   : process.env.NEXT_PUBLIC_API_URL;
 
-const FRONTEND_DOMAIN = process.env.NEXT_PUBLIC_DEVELOPMENT === "true"
-  ? "http://localhost:3000"
-  : process.env.NEXT_PUBLIC_FRONTEND_API_URL;
+// const FRONTEND_DOMAIN = process.env.NEXT_PUBLIC_DEVELOPMENT === "true"
+//   ? "http://localhost:3000"
+//   : process.env.NEXT_PUBLIC_FRONTEND_API_URL;
 
 const depositListApiCall = async (token) => {
   const config = {

@@ -6,6 +6,9 @@ import Link from "next/link";
 import { useState } from "react";
 import SiteHeader from "./header.component";
 import Menu from "./menubar.component";
+import Image from "next/image";
+import logo from "../../../../public/logo-sign.png";
+
 const { Sider, Content } = Layout;
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
@@ -21,21 +24,21 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     <Layout className="h-screen">
       {!isMobile ? (
         <Sider
-          className="box-border duration-1000 overflow-auto h-[calc(100vh - 64px)] sticky left-0 hidden sm:hidden md:hidden lg:block"
+          className="box-border rounded-[10px] duration-1000 overflow-auto h-[calc(100vh - 64px)] sticky left-0 hidden sm:hidden md:hidden lg:block m-4"
           trigger={null}
           collapsible
           collapsedWidth={0}
           collapsed={collapsed}
           breakpoint="md"
           width={240}
-          theme="dark"
+          theme="light"
         >
           <Link href={"/"} scroll={false}>
             <div
               className=" items-center justify-center hidden sm:hidden md:hidden lg:flex h-[64px]"
               style={{ width: collapsed ? 80 : 240 }}
             >
-              <img src={"/next.svg"} alt="" className="w-3/4 h-auto" />
+              <Image src={logo} alt="Optix-Pay" className="w-3/4 h-auto" />
             </div>
           </Link>
           <Menu />

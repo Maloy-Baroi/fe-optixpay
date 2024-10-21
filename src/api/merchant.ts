@@ -38,3 +38,21 @@ export const createUserAndMerchant = async (user: UserValues, merchant: Merchant
     return error;
   }
 };
+
+// Function to get merchants data
+export const getMerchants = async (token: string|undefined) => {
+  try {
+    const response = await axios.get('http://localhost:8000/api/v1/app-merchant/merchants/', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`  // Replace with actual token or authorization header
+      }
+    });
+    return response.data;  // Return the data for use in other components
+  } catch (error) {
+    console.error('Error fetching merchants:', error);
+    throw error;  // You can throw the error to handle it in the component
+  }
+};
+
+

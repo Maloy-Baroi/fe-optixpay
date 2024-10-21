@@ -2,7 +2,7 @@
 
 import React, {Suspense, useState} from 'react';
 import { Form, Input, Button, message } from 'antd';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { createUserAndMerchant, UserValues, MerchantValues } from '@/api/merchant'; // Adjust the path
 
 const CreateUserMerchantForm: React.FC = () => {
