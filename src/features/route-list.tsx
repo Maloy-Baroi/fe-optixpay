@@ -27,10 +27,10 @@ export const menuItems = [
         label: "Pay In",
         icon: DownloadOutlined,
         path: "/pay-in",
-        permission: "canViewPayIn",
+        permission: "admin",
       },
       {
-        label: "Pay In Approval",
+        label: "All Transactions",
         icon: DownloadOutlined,
         path: "/pay-in-approval",
         permission: "admin",
