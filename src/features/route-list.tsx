@@ -1,5 +1,4 @@
 import {
-  CreditCardOutlined,
   DollarOutlined,
   DownloadOutlined,
   HomeOutlined,

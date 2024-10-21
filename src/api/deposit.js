@@ -4,6 +4,10 @@ const BACKEND_DOMAIN = process.env.NEXT_PUBLIC_DEVELOPMENT === "true"
   ? "http://localhost:8000/api/v1"
   : process.env.NEXT_PUBLIC_API_URL;
 
+const FRONTEND_DOMAIN = process.env.NEXT_PUBLIC_DEVELOPMENT === "true"
+  ? "http://localhost:3000"
+  : process.env.NEXT_PUBLIC_FRONTEND_API_URL;
+
 const depositListApiCall = async (token) => {
   const config = {
     method: 'get',
@@ -35,7 +39,7 @@ const depositBKashPayCreate = async (id_token, appKey, secretKey, username, pass
   const data = {
     "id_token": id_token,
     "x_app_key": appKey,
-    "callback_url": "http://localhost:3000/call-back/",
+    "callback_url": `${FRONTEND_DOMAIN}/call-back/`,
     // "secretKey": secretKey,
     "payer_reference": username,
     "amount": paymentAmount,
@@ -181,7 +185,7 @@ const checkUserPaidStatus = async (token) => {
 // Function to initiate payment
 export const initiatePayment = async (amount, orderId) => {
   try {
-    const response = await axios.post(`http://localhost:8000/start-payment/`, {
+    const response = await axios.post(`${BACKEND_DOMAIN}/start-payment/`, {
       amount: amount,
       order_id: orderId,
     });

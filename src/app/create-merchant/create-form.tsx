@@ -7,7 +7,6 @@ import { createUserAndMerchant, UserValues, MerchantValues } from '@/api/merchan
 
 const CreateUserMerchantForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const router = useRouter();
 
   const onFinish = async (values: any) => {
     setLoading(true);
@@ -30,7 +29,7 @@ const CreateUserMerchantForm: React.FC = () => {
       await createUserAndMerchant(user, merchant);
       message.success('User and merchant created successfully!');
       // router.push('/success-page'); // Redirect to success page
-    } catch (error) {
+    } catch {
       message.error("Couldn't create new merchant"); // Display error message
     } finally {
       setLoading(false);

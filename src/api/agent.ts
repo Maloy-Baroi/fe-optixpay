@@ -60,7 +60,7 @@ export const createUserAgentProvider = async (values: any) => {
   try {
     const response = await axios.post(`${BACKEND_DOMAIN}/app-agent/create-user-agent-provider`, userPayload);
     return response.data;
-  } catch (error) {
+  } catch {
     throw new Error('Error occurred while creating the entities. Please try again.');
   }
 };
