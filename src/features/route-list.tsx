@@ -20,35 +20,29 @@ export const menuItems = [
       },
     ],
   },
-  {
-    group: "Transactions",
-    items: [
-      {
-        label: "Pay In",
-        icon: DownloadOutlined,
-        path: "/pay-in",
-        permission: "admin",
-      },
-      {
-        label: "All Transactions",
-        icon: DownloadOutlined,
-        path: "/pay-in-approval",
-        permission: "admin",
-      },
-      {
-        label: "Pay Out",
-        icon: UploadOutlined,
-        path: "/pay-out",
-        permission: "canViewPayOut",
-      },
-      {
-        label: "Pay Out Approval",
-        icon: UploadOutlined,
-        path: "/pay-out-approval",
-        permission: "canApprovePayOut",
-      },
-    ],
-  },
+  // {
+  //   group: "Transactions",
+  //   items: [
+  //     {
+  //       label: "Pay In",
+  //       icon: DownloadOutlined,
+  //       path: "/pay-in",
+  //       permission: "admin",
+  //     },
+  //     {
+  //       label: "Pay Out",
+  //       icon: UploadOutlined,
+  //       path: "/pay-out",
+  //       permission: "canViewPayOut",
+  //     },
+  //     {
+  //       label: "Pay Out Approval",
+  //       icon: UploadOutlined,
+  //       path: "/pay-out-approval",
+  //       permission: "canApprovePayOut",
+  //     },
+  //   ],
+  // },
   {
     group: "Prepayment",
     items: [
@@ -74,6 +68,12 @@ export const menuItems = [
         icon: DollarOutlined,
         path: "/balances",
         permission: "canViewBalances",
+      },
+      {
+        label: "Balance History",
+        icon: DownloadOutlined,
+        path: "/pay-in-approval",
+        permission: "admin",
       },
     ],
   },

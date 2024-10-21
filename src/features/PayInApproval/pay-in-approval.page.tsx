@@ -127,7 +127,7 @@ const handleTableChange = (newPagination: TablePaginationConfig) => {
   return (
     <div>
       <ModuleHeader title="Transaction" />
-      <CommonCard title="All Transactions" bordered={false}>
+      <CommonCard title="Balance History" bordered={false}>
         <Card bordered={false} className="!shadow">
           <Form form={form} onFinish={handleSubmit} layout="vertical">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
