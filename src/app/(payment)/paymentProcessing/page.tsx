@@ -41,7 +41,7 @@ const PaymentProcessing = () => {
 async function verifyMerchant(api_key: string, secret_key: string, payment_method:string) {
   try {
       const authToken = Cookies.get('accessToken');
-      const response = await fetch(`${BACKEND_DOMAIN}/api/v1/app-merchant/merchants/verification/`, {
+      const response = await fetch(`${BACKEND_DOMAIN}/app-merchant/merchants/verification/`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
