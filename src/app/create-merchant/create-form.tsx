@@ -95,22 +95,6 @@ const CreateUserMerchantForm: React.FC = () => {
         <Input placeholder="Contact Number" />
       </Form.Item>
 
-      <Form.Item
-        name="apiKey"
-        label="API Key"
-        rules={[{ required: true, message: 'Please input the API key!' }]}
-      >
-        <Input placeholder="API Key" />
-      </Form.Item>
-
-      <Form.Item
-        name="secretKey"
-        label="Secret Key"
-        rules={[{ required: true, message: 'Please input the secret key!' }]}
-      >
-        <Input placeholder="Secret Key" />
-      </Form.Item>
-
       <Form.Item>
         <Button type="primary" htmlType="submit" loading={loading}>
           Submit
