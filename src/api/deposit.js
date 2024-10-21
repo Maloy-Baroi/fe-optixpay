@@ -39,7 +39,7 @@ const depositBKashPayCreate = async (id_token, appKey, secretKey, username, pass
   const data = {
     "id_token": id_token,
     "x_app_key": appKey,
-    "callback_url": `${FRONTEND_DOMAIN}/call-back/`,
+    "callback_url": `http://147.79.66.187:3000/call-back/`,
     // "secretKey": secretKey,
     "payer_reference": username,
     "amount": paymentAmount,

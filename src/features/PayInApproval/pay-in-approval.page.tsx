@@ -159,7 +159,7 @@ const handleTableChange = (newPagination: TablePaginationConfig) => {
             </div>
           </Form>
         </Card>
-        <div className="py-3">
+        <div className="py-3" style={{ maxWidth: '100%', overflowX: 'auto' }}>
         <Table
             dataSource={data}
             columns={columns}
