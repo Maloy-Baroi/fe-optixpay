@@ -43,7 +43,7 @@ const Menu = ({ toggle }: MenuProps) => {
     }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-auto">
       {menuItems.map((group, index) => (
         <div key={index}>
           {group.group !== "Dashboard" && (

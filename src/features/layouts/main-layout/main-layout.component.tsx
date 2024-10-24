@@ -1,5 +1,4 @@
 "use client";
-
 import useDeviceDetect from "@/features/hooks/useDeviceDetect";
 import { Drawer, Layout } from "antd";
 import Link from "next/link";
@@ -13,7 +12,6 @@ const { Sider, Content } = Layout;
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
-
   const toggle = () => {
     setCollapsed(!collapsed);
   };
@@ -21,33 +19,38 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const { isMobile } = useDeviceDetect();
 
   return (
-    <Layout className="h-screen">
+    <Layout className="mr-2" >
+      {" "}
+      {/* Ensure full viewport height */}
       {!isMobile ? (
         <Sider
-          className="box-border rounded-[10px] duration-1000 overflow-auto h-[calc(100vh - 64px)] sticky left-0 hidden sm:hidden md:hidden lg:block m-4"
+          className="box-border overflow-auto "
           trigger={null}
           collapsible
           collapsedWidth={0}
           collapsed={collapsed}
           breakpoint="md"
-          width={240}
+          width={250}
           theme="light"
+          // style={{ height: "100vh" }} // Set full height for Sider
         >
-          <Link href={"/"} scroll={false}>
-            <div
-              className=" items-center justify-center hidden sm:hidden md:hidden lg:flex h-[64px]"
-              style={{ width: collapsed ? 80 : 240 }}
-            >
-              <Image src={logo} alt="Optix-Pay" className="w-3/4 h-auto" />
-            </div>
-          </Link>
-          <Menu />
+          <div className="bg-slate-100 rounded-md mr-2 pb-3">
+            <Link href={"/"} scroll={false}>
+              <div
+                className="items-center justify-center hidden sm:hidden md:hidden lg:flex h-[64px] sticky"
+                style={{ width: collapsed ? 80 : 240 }}
+              >
+                <Image src={logo} alt="Optix-Pay" className="w-[80%] h-auto" />
+              </div>
+            </Link>
+            <Menu />
+          </div>
         </Sider>
       ) : (
         <Drawer
           width={200}
           placement="left"
-          styles={{ body: { padding: 0, height: 100 } }}
+          bodyStyle={{ padding: 0 }} // Ensure padding is adjusted
           closable={false}
           onClose={toggle}
           open={collapsed}
@@ -56,9 +59,16 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           <Menu toggle={toggle} />
         </Drawer>
       )}
-      <Layout>
-        <SiteHeader collapsed={collapsed} toggle={toggle} isMobile={isMobile} />{" "}
-        <Content className="overflow-y-auto p-5 bg-white">{children}</Content>
+      <Layout style={{ overflow: "hidden" }}>
+        {" "}
+        {/* Prevent overflow in main layout */}
+        <SiteHeader collapsed={collapsed} toggle={toggle} isMobile={isMobile} />
+        <Content
+          className="overflow-y-auto p-5 bg-white"
+          style={{ minHeight: "calc(100vh - 64px)", overflow: "auto" }}
+        >
+          {children}
+        </Content>
       </Layout>
     </Layout>
   );
