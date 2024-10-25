@@ -68,7 +68,7 @@ const CreateAgent: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const gotoCreateMerchant = () => {
+  const gotoCreateAgent = () => {
     router.push("/new-agent");
   };
   const fetchMerchants = async () => {
@@ -95,7 +95,7 @@ const CreateAgent: React.FC = () => {
       {error && <div>{error}</div>}
       <div className="">
         <div>
-          <Button className={`float-end`} onClick={gotoCreateMerchant}>
+          <Button className={`float-end`} onClick={gotoCreateAgent}>
             Create New Agent
           </Button>
         </div>
