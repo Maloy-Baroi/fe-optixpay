@@ -1,7 +1,5 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
-import MerchantDataTable from "@/app/create-merchant/merchant_list";
 import { Button, Card, Table, Tag } from "antd";
 import { useRouter } from "next/navigation";
 const columns = [
@@ -93,15 +91,14 @@ const CreateAgent: React.FC = () => {
   return (
     <>
       {error && <div>{error}</div>}
-      <div className="">
-        <div>
-          <Button className={`float-end`} onClick={gotoCreateAgent}>
+      <div className="mt-10">
+        <div className="flex justify-end">
+          <Button onClick={gotoCreateAgent}>
             Create New Agent
           </Button>
         </div>
-        <div>
+        <div className="mt-2">
           <Table
-           className="mt-4"
             dataSource={data?.length > 0 ? data : []}
             bordered
             columns={columns}

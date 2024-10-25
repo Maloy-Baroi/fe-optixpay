@@ -19,14 +19,14 @@ const Page = () => {
     }
   };
 
-  const onFinish = (values:any) => {
+  const onFinish = (values: any) => {
     const payload = {
       ...values,
       frontSideDocument: frontImage,
       backSideDocument: backImage,
       selfieWithDocument: selfieImage,
     };
-    
+
     console.log("Payload to submit:", payload);
 
     // API call example
@@ -42,7 +42,12 @@ const Page = () => {
     setSelfieImage(null);
   };
   return (
-    <Form name="create_user_form" layout="vertical" onFinish={onFinish} form={form}>
+    <Form
+      name="create_user_form"
+      layout="vertical"
+      onFinish={onFinish}
+      form={form}
+    >
       <div className="flex w-full justify-between gap-3">
         <div className="w-1/3">
           <div className=" bg-slate-50  rounded-md  p-3">
@@ -72,9 +77,7 @@ const Page = () => {
             <Form.Item
               name="password"
               label="Password"
-              rules={[
-                { required: true, message: "Please input the password" },
-              ]}
+              rules={[{ required: true, message: "Please input the password" }]}
             >
               <Input.Password placeholder="Password" />
             </Form.Item>
@@ -173,7 +176,9 @@ const Page = () => {
                   label={
                     verificationType === "nid"
                       ? "NID Number"
-                      : "Passport Number"
+                      : verificationType === "passport"
+                      ? "Passport Number"
+                      : "Verification Number"
                   }
                   rules={[
                     {
@@ -186,13 +191,24 @@ const Page = () => {
                     placeholder={
                       verificationType === "nid"
                         ? "NID Number"
-                        : "Passport Number"
+                        : verificationType === "passport"
+                        ? "Passport Number"
+                        : "Verification Number"
                     }
                   />
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>
-                <Form.Item name="telegramAccount" label="Telegram Account">
+                <Form.Item
+                  name="telegramAccount"
+                  label="Telegram Account"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input the Telegram Account name",
+                    },
+                  ]}
+                >
                   <Input placeholder="Telegram Account" />
                 </Form.Item>
               </Col>
@@ -348,12 +364,17 @@ const Page = () => {
             </Row>
           </div>
           <div className="flex justify-end mt-2  p-3">
-          <Button type="primary" htmlType="submit"  size="large" className="mr-3">
+            <Button
+              type="primary"
+              htmlType="submit"
+              size="large"
+              className="mr-3"
+            >
               Submit
             </Button>
-            <Button type="default" onClick={onClear} size="large" >
+            <Button type="default" onClick={onClear} size="large">
               Clear
-            </Button>       
+            </Button>
           </div>
         </div>
       </div>
