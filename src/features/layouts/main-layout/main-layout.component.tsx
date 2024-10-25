@@ -19,7 +19,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const { isMobile } = useDeviceDetect();
 
   return (
-    <Layout className="mr-2" >
+    <Layout className="mr-2  mt-5" >
       {" "}
       {/* Ensure full viewport height */}
       {!isMobile ? (
@@ -34,7 +34,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           theme="light"
           // style={{ height: "100vh" }} // Set full height for Sider
         >
-          <div className="bg-slate-100 rounded-md mr-2 pb-3">
+          <div className="bg-slate-100 rounded-md mr-2 ml-5 mt-16 pb-3">
             <Link href={"/"} scroll={false}>
               <div
                 className="items-center justify-center hidden sm:hidden md:hidden lg:flex h-[64px] sticky"

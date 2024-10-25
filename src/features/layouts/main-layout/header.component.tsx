@@ -5,7 +5,7 @@ import {
   SwapOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Avatar, Button, Dropdown, Layout,  theme, Typography } from "antd";
+import { Avatar, Button, Dropdown, Layout, theme, Typography } from "antd";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
@@ -55,7 +55,6 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
               size="large"
               className="!bg-black !text-white !border-none"
             >
-              
               <span>Prepayment</span>
               <span></span>
             </Button>
