@@ -47,6 +47,9 @@ export async function middleware(req: NextRequest) {
     url.pathname==="/call-back") {
     return NextResponse.next();
   }
+  // if (url.pathname) {
+  //   return NextResponse.next();
+  // }
   // Redirect to login if no token is present
   if (!token) {
     return NextResponse.redirect(new URL("/signin", url));

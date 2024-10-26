@@ -1,11 +1,12 @@
 import {
-  DollarOutlined,
-  DownloadOutlined,
+  BankOutlined,
+  HistoryOutlined,
   HomeOutlined,
-  LeftOutlined, LinuxOutlined,
   PlusSquareOutlined,
   RightOutlined,
-  UploadOutlined, UsergroupAddOutlined,
+  SafetyCertificateOutlined,
+  SafetyOutlined,
+   UserAddOutlined, UsergroupAddOutlined,
 } from "@ant-design/icons";
 
 export const menuItems = [
@@ -20,29 +21,29 @@ export const menuItems = [
       },
     ],
   },
-  // {
-  //   group: "Transactions",
-  //   items: [
-  //     {
-  //       label: "Pay In",
-  //       icon: DownloadOutlined,
-  //       path: "/pay-in",
-  //       permission: "admin",
-  //     },
-  //     {
-  //       label: "Pay Out",
-  //       icon: UploadOutlined,
-  //       path: "/pay-out",
-  //       permission: "canViewPayOut",
-  //     },
-  //     {
-  //       label: "Pay Out Approval",
-  //       icon: UploadOutlined,
-  //       path: "/pay-out-approval",
-  //       permission: "canApprovePayOut",
-  //     },
-  //   ],
-  // },
+  {
+    group: "Transactions",
+    items: [
+      {
+        label: "Deposit",
+        icon: SafetyCertificateOutlined  ,
+        path: "/pay-in",
+        permission: "admin",
+      },
+      {
+        label: "Withdraw",
+        icon:  SafetyOutlined,
+        path: "/pay-out",
+        permission: "admin",
+      },
+      // {
+      //   label: "Pay Out Approval",
+      //   icon: UploadOutlined,
+      //   path: "/pay-out-approval",
+      //   permission: "canApprovePayOut",
+      // },
+    ],
+  },
   {
     group: "Prepayment",
     items: [
@@ -54,9 +55,9 @@ export const menuItems = [
       },
       {
         label: "Prepayment History",
-        icon: LeftOutlined,
+        icon: HistoryOutlined ,
         path: "/prepayment-history",
-        permission: "canViewPrepayment",
+        permission: "admin",
       },
     ],
   },
@@ -64,14 +65,14 @@ export const menuItems = [
     group: "Balances",
     items: [
       {
-        label: "Balances",
-        icon: DollarOutlined,
+        label: "Bank",
+        icon:  BankOutlined  ,
         path: "/balances",
-        permission: "canViewBalances",
+        permission: "admin",
       },
       {
         label: "Balance History",
-        icon: DownloadOutlined,
+        icon:  HistoryOutlined,
         path: "/pay-in-approval",
         permission: "admin",
       },
@@ -88,13 +89,13 @@ export const menuItems = [
       },
       {
         label: "Add Merchant",
-        icon: LinuxOutlined,
+        icon: UserAddOutlined,
         path: "/create-merchant",
         permission: "admin",
       },
       {
         label: "Add Agent",
-        icon: UsergroupAddOutlined,
+        icon: UsergroupAddOutlined ,
         path: "/create-agent",
         permission: "admin",
       },
