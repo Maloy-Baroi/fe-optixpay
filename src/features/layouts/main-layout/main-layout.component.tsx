@@ -29,13 +29,13 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           collapsedWidth={0}
           collapsed={collapsed}
           breakpoint="md"
-          width={240}
+          width={230}
           theme="light"
         >
           <Link href={"/"} scroll={false}>
             <div
               className=" items-start justify-start hidden sm:hidden md:hidden lg:flex h-[64px] pt-1"
-              style={{ width: collapsed ? 80 : 240 }}
+              style={{ width: collapsed ? 80 : 230 }}
             >
               <Image src={logo} alt="Optix-Pay" className="w-3/4 h-auto" />
             </div>
