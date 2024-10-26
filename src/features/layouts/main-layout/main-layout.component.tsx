@@ -40,7 +40,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
               <Image src={logo} alt="Optix-Pay" className="w-3/4 h-auto" />
             </div>
           </Link>
-          <h2 className="text-sm text-orange-600 font-semibold mb-2 ml-5">
+          <h2 className="text-lg text-slate-400 font-semibold mb-2 ml-5">
             Menu
           </h2>
           <Menu />

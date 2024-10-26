@@ -57,7 +57,7 @@ const Menu = ({ toggle }: MenuProps) => {
             .map((item, idx) => (
               <Button 
               key={idx} 
-              className={`hover:!bg-blue-50 !border-none !shadow-none ${activeLink === item.path ? "!text-[#FF4D00]" : "text-[#919eab]"}`}
+              className={`hover:!bg-blue-50 !border-none !p-3 !shadow-none ${activeLink === item.path ? "!text-[#FF4D00]" : "text-[#919eab]"}`}
             >
               <Link
                 key={idx}
