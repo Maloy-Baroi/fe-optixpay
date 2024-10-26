@@ -1,5 +1,4 @@
 "use client";
-
 import useDeviceDetect from "@/features/hooks/useDeviceDetect";
 import { Drawer, Layout } from "antd";
 import Link from "next/link";
@@ -24,7 +23,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     <Layout className="h-screen">
       {!isMobile ? (
         <Sider
-          className="box-border rounded-[10px] duration-1000 overflow-auto h-[calc(100vh - 64px)] sticky left-0 hidden sm:hidden md:hidden lg:block m-4"
+          className="box-border rounded-[10px] duration-1000 overflow-auto h-[calc(100vh - 64px)] sticky left-0 hidden sm:hidden md:hidden lg:block ml-3 mr-3 mt-2 mb-4"
           trigger={null}
           collapsible
           collapsedWidth={0}
@@ -35,12 +34,15 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         >
           <Link href={"/"} scroll={false}>
             <div
-              className=" items-center justify-center hidden sm:hidden md:hidden lg:flex h-[64px]"
+              className=" items-start justify-start hidden sm:hidden md:hidden lg:flex h-[64px] pt-1"
               style={{ width: collapsed ? 80 : 240 }}
             >
               <Image src={logo} alt="Optix-Pay" className="w-3/4 h-auto" />
             </div>
           </Link>
+          <h2 className="text-sm text-orange-600 font-semibold mb-2 ml-5">
+            Menu
+          </h2>
           <Menu />
         </Sider>
       ) : (

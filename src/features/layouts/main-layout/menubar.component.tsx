@@ -1,6 +1,7 @@
 "use client"
 
 import { menuItems } from "@/features/route-list";
+import { Button } from "antd";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -43,7 +44,7 @@ const Menu = ({ toggle }: MenuProps) => {
     }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-auto">
       {menuItems.map((group, index) => (
         <div key={index}>
           {group.group !== "Dashboard" && (
@@ -55,17 +56,20 @@ const Menu = ({ toggle }: MenuProps) => {
           {group.items
             .filter((item) => permissions && item.permission == 'admin')
             .map((item, idx) => (
+              <Button 
+              key={idx} 
+              className={`hover:!bg-blue-50 !border-none ml-1 !shadow-none ${activeLink === item.path ? "!text-[#FF4D00]" : "text-[#919eab]"}`}
+            >
               <Link
                 key={idx}
-                className={`nav-link flex items-center text-[#919eab] ${
-                  activeLink == item.path ? "text-[#FF4D00]" : "text-[#919eab]"
-                } font-medium py-2 px-6 transition-all duration-500 whitespace-nowrap hover:text-[#FF4D00]`}
+                className="nav-link flex items-center font-medium py-2 px-6 transition-all duration-500 whitespace-nowrap hover:text-[#FF4D00]"
                 href={item.path}
                 onClick={toggle}
               >
                 <item.icon className="mr-2" />
                 {item.label}
               </Link>
+            </Button>
             ))}
         </div>
       ))}
