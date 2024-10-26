@@ -73,6 +73,47 @@ const depositBKashPayCreate = async (id_token, appKey, secretKey, username, pass
   }
 }
 
+const depositNagadPayCreate = async (id_token, appKey, secretKey, username, password, authToken, paymentAmount, paymentCurrency = "BDT") => {
+  // Define the headers
+  const data = {
+    "id_token": id_token,
+    "x_app_key": appKey,
+    "callback_url": `http://optixpay.com/call-back`,
+    // "secretKey": secretKey,
+    "payer_reference": username,
+    "amount": paymentAmount,
+    "currency": paymentCurrency,
+    "intent": "authorization"
+  }
+
+  try {
+    // Make the axios POST call
+    const response = await axios.post(
+      `${BACKEND_DOMAIN}/app-payment/bkash/create/`,
+      data
+    );
+
+    // Check if the response is successful
+    if (response.status === 200) {
+      return response.data;
+    } else if (response.status === 401) {
+      return {"error": "Unauthorized: Invalid credentials!"};
+    } else {
+      return {"error": response.data.message || "An error occurred"};
+    }
+  } catch (error) {
+    if (error.response) {
+      console.error('Error Response Data:', error.response.data);
+      return {"error": error.response.data.message || "An error occurred"};
+    } else {
+      console.error('Error:', error.message);
+      return {"error": error.message};
+    }
+  }
+}
+
+
+
 const depositBKashPayGrant = (appKey, secretKey, username, password, authToken, paymentAmount, paymentMethod, paymentCurrency = "BDT", merchant) => {
   const headers = {
     "Content-Type": "application/json",
@@ -185,7 +226,7 @@ const checkUserPaidStatus = async (token) => {
 // Function to initiate payment
 export const initiatePayment = async (amount, orderId) => {
   try {
-    const response = await axios.post(`${BACKEND_DOMAIN}/start-payment/`, {
+    const response = await axios.post(`${BACKEND_DOMAIN}/app-payment/nagad/create/`, {
       amount: amount,
       order_id: orderId,
     });

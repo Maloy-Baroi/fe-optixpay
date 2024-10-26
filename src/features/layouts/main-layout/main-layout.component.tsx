@@ -23,7 +23,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     <Layout className="h-screen">
       {!isMobile ? (
         <Sider
-          className="box-border rounded-[10px] duration-1000 overflow-auto h-[calc(100vh - 64px)] sticky left-0 hidden sm:hidden md:hidden lg:block ml-3 mr-3 mt-2 mb-4"
+          className="box-border rounded-[10px] duration-1000 overflow-auto h-[calc(100vh - 64px)] sticky left-0 hidden sm:hidden md:hidden lg:block ml-3 mr-3 mb-4 mt-2"
           trigger={null}
           collapsible
           collapsedWidth={0}
@@ -60,7 +60,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       )}
       <Layout>
         <SiteHeader collapsed={collapsed} toggle={toggle} isMobile={isMobile} />{" "}
-        <Content className="overflow-y-auto p-5 bg-white">{children}</Content>
+        <Content className="overflow-y-auto pr-4 ">{children}</Content>
       </Layout>
     </Layout>
   );

@@ -4,8 +4,8 @@
 
 /* Customizing the scrollbar for Chrome, Edge, Safari */
 ::-webkit-scrollbar {
-  height: 3px; /* Adjust the height of the horizontal scrollbar */
-  width: 8px; /* Adjust the width of the vertical scrollbar if needed */
+  height: 2px; /* Adjust the height of the horizontal scrollbar */
+  width: 4px; /* Adjust the width of the vertical scrollbar if needed */
 }
 
 ::-webkit-scrollbar-track {
@@ -25,14 +25,25 @@ html,
 body,
 :root {
   height: 100%;
-  scrollbar-width: thin; /* Make the scrollbar thin */
-  scrollbar-color: #888 #f1f1f1; /* Color of the scrollbar thumb and track */
+  scrollbar-width: 2px; /* Make the scrollbar thin */
+  scrollbar-color: #b4b1b1 #f1f1f1;
+  font-family: 'MyCustomFont', sans-serif;
+  font-size: 13px; /* Color of the scrollbar thumb and track */
+}
+@font-face {
+  font-family: 'MyCustomFont';
+  src: url('/fonts/MyCustomFont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
+  font-family: 'MyCustomFont', sans-serif;
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
 }
+
+
 
 a {
   @apply underline cursor-pointer;
