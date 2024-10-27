@@ -75,9 +75,8 @@ async function verifyMerchant(api_key: string, secret_key: string, payment_metho
   if (apiKey && secretKey && paymentAmount && paymentMethod) {
     // Use async/await to wait for the verification result
     (async () => {
+      const verifyMerchentValue = await verifyMerchant(apiKey, secretKey, paymentMethod);
         if (paymentMethod.toLowerCase() === 'bkash') {
-          const verifyMerchentValue = await verifyMerchant(apiKey, secretKey, paymentMethod);
-
           if (verifyMerchentValue) {
             const agent_app_key = verifyMerchentValue['agent_data']['provider_key'];
             const agent_secret_key = verifyMerchentValue['agent_data']['provider_secret'];
@@ -94,22 +93,27 @@ async function verifyMerchant(api_key: string, secret_key: string, payment_metho
             if (id_token) {
               router.push(`bkash-pay/?amount=${paymentAmount}`);
             }
-          } else {
+          }
+           else {
             router.push("/paymentFailed");
           }
         }
         else if (paymentMethod.toLowerCase() === 'nagad') {
-          const handleInitiatePayment = async () => {
-            try {
-              const response = await initiatePayment('500.00', 'ORDER123456');
+          if (verifyMerchentValue) {
+             const orderId = verifyMerchentValue.orderId
+             try {
+              const response = await initiatePayment(paymentAmount, orderId);
               console.log('Initiation Success:', response);
               // Handle response, such as redirecting to payment URL
             } catch (error) {
               console.error('Payment initiation failed:', error);
             }
-          };
+          }
+          // const handleInitiatePayment = async () => {
+            
+          // };
 
-          handleInitiatePayment();
+          // handleInitiatePayment();
 
           // const handleVerifyPayment = async () => {
           //   try {

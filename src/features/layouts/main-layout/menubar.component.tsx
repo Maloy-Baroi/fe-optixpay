@@ -48,25 +48,24 @@ const Menu = ({ toggle }: MenuProps) => {
       {menuItems.map((group, index) => (
         <div key={index}>
           {group.group !== "Dashboard" && (
-            <div className="text-[#454f5b] px-6 py-4 text-sm uppercase tracking-widest font-bold">
+            <div className="text-[#454f5b] px-2 py-1 text-sm uppercase tracking-widest font-bold">
               {group.group}
             </div>
           )}
-
           {group.items
             .filter((item) => permissions && item.permission == 'admin')
             .map((item, idx) => (
               <Button 
               key={idx} 
-              className={`hover:!bg-blue-50 !border-none ml-1 !shadow-none ${activeLink === item.path ? "!text-[#FF4D00]" : "text-[#919eab]"}`}
+              className={`hover:!bg-blue-50 !border-none !p-3 !shadow-none ${activeLink === item.path ? "!text-[#FF4D00]" : "text-[#919eab]"}`}
             >
               <Link
                 key={idx}
-                className="nav-link flex items-center font-medium py-2 px-6 transition-all duration-500 whitespace-nowrap hover:text-[#FF4D00]"
+                className="nav-link flex items-center font-medium py-1 px-6 transition-all duration-500 whitespace-nowrap hover:text-[#FF4D00]"
                 href={item.path}
                 onClick={toggle}
               >
-                <item.icon className="mr-2" />
+                <item.icon className="mr-1" />
                 {item.label}
               </Link>
             </Button>
