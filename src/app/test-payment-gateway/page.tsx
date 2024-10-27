@@ -72,7 +72,7 @@ const Dashboard = () => {
                   style={{ width: 150, marginRight: 30 }}
                   onChange={onGatewayChange}
                   options={[
-                    { value: 'bKash', label: 'BKash' },
+                    { value: 'bkash', label: 'BKash' },
                     { value: 'nagad', label: 'Nagad' },
                     // { value: 'Yiminghe', label: 'yiminghe' },
                     // { value: 'disabled', label: 'Disabled', disabled: true },
