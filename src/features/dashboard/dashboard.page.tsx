@@ -6,7 +6,7 @@ import {
   LinearScale,
   PointElement,
   LineElement,
-  
+  ChartOptions,
   Tooltip,
   Legend,
 } from 'chart.js';
@@ -22,7 +22,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
-  
+
   Tooltip,
   Legend
 );
@@ -42,7 +42,7 @@ const chartData = {
   ],
 };
 
-const chartOptions = {
+const chartOptions: ChartOptions<'line'> = {
   maintainAspectRatio: false,
   responsive: true,
   scales: {
@@ -157,7 +157,7 @@ const agentData = [
     amount: "$3400",
     avatar: "https://i.pravatar.cc/150?img=4",
   },
-  
+
 ];
 
 const Dashboard = () => {
