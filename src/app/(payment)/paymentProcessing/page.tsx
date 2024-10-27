@@ -104,13 +104,14 @@ async function verifyMerchant(api_key: string, secret_key: string, payment_metho
              try {
               const response = await initiatePayment(paymentAmount, orderId);
               console.log('Initiation Success:', response);
+              router.push(response?.callBackUrl);
               // Handle response, such as redirecting to payment URL
             } catch (error) {
               console.error('Payment initiation failed:', error);
             }
           }
           // const handleInitiatePayment = async () => {
-            
+
           // };
 
           // handleInitiatePayment();
