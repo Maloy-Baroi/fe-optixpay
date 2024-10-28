@@ -46,51 +46,31 @@ const Balances = () => {
 
   const columns = [
     {
-      title: "Payment Method",
+      title: "Bank Id",
       dataIndex: "paymentMethod",
       key: "paymentMethod",
     },
     {
-      title: "Payment Amount",
+      title: "Bank Name",
       dataIndex: "paymentAmount",
       key: "paymentAmount",
     },
     {
-      title: "Commission",
+      title: "Bank Number",
       dataIndex: "commission",
       key: "commission",
     },
     {
-      title: "Provider Net",
+      title: "Trx Type",
       dataIndex: "providerNet",
       key: "providerNet",
     },
     {
-      title: "Paid Amount",
+      title: "Bank Status",
       dataIndex: "paidAmount",
       key: "paidAmount",
     },
-    {
-      title: "Adjustment",
-      dataIndex: "adjustment",
-      key: "adjustment",
-    },
-    {
-      title: "Balance",
-      dataIndex: "balance",
-      key: "balance",
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (_: any, record: any) => (
-        <Button
-          type="primary"
-          onClick={() => showModal(record)}
-          icon={<EditOutlined />}
-        />
-      ),
-    },
+   
   ];
 
   const showModal = (record: any) => {

@@ -125,54 +125,55 @@ const handleTableChange = (newPagination: TablePaginationConfig) => {
 };
 
   return (
-    <div>
-      <ModuleHeader title="Transaction" />
-      <CommonCard title="Balance History" bordered={false}>
-        <Card bordered={false} className="!shadow">
-          <Form form={form} onFinish={handleSubmit} layout="vertical">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-              <Form.Item
-                label="Start Date"
-                name="startDate"
-                rules={[{ required: true, message: "Please select the start date" }]}
-              >
-                <DatePicker style={{ width: "100%" }} placeholder="Select start date" />
-              </Form.Item>
+    <h1 className="text-red-700 justify-center p-16 text-center">Under Development..... </h1>
+    // <div>
+    //   <ModuleHeader title="Transaction" />
+    //   <CommonCard title="Balance History" bordered={false}>
+    //     <Card bordered={false} className="!shadow">
+    //       <Form form={form} onFinish={handleSubmit} layout="vertical">
+    //         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+    //           <Form.Item
+    //             label="Start Date"
+    //             name="startDate"
+    //             rules={[{ required: true, message: "Please select the start date" }]}
+    //           >
+    //             <DatePicker style={{ width: "100%" }} placeholder="Select start date" />
+    //           </Form.Item>
 
-              <Form.Item
-                label="End Date"
-                name="endDate"
-                rules={[{ required: true, message: "Please select the end date" }]}
-              >
-                <DatePicker style={{ width: "100%" }} placeholder="Select end date" />
-              </Form.Item>
-            </div>
-            <div className="flex items-center justify-center">
-              <Form.Item>
-                <Button htmlType="button" onClick={handleReset} className="mr-3">
-                  Reset
-                </Button>
-                <Button type="primary" htmlType="submit">
-                  Filter
-                </Button>
-              </Form.Item>
-            </div>
-          </Form>
-        </Card>
-        <div className="py-3" style={{ maxWidth: '100%', overflowX: 'auto' }}>
-        <Table
-            dataSource={data}
-            columns={columns}
-            rowKey="id"
-            pagination={{
-              ...pagination,
-              showSizeChanger: true
-            }}
-            onChange={handleTableChange}
-        />
-        </div>
-      </CommonCard>
-    </div>
+    //           <Form.Item
+    //             label="End Date"
+    //             name="endDate"
+    //             rules={[{ required: true, message: "Please select the end date" }]}
+    //           >
+    //             <DatePicker style={{ width: "100%" }} placeholder="Select end date" />
+    //           </Form.Item>
+    //         </div>
+    //         <div className="flex items-center justify-center">
+    //           <Form.Item>
+    //             <Button htmlType="button" onClick={handleReset} className="mr-3">
+    //               Reset
+    //             </Button>
+    //             <Button type="primary" htmlType="submit">
+    //               Filter
+    //             </Button>
+    //           </Form.Item>
+    //         </div>
+    //       </Form>
+    //     </Card>
+    //     <div className="py-3" style={{ maxWidth: '100%', overflowX: 'auto' }}>
+    //     <Table
+    //         dataSource={data}
+    //         columns={columns}
+    //         rowKey="id"
+    //         pagination={{
+    //           ...pagination,
+    //           showSizeChanger: true
+    //         }}
+    //         onChange={handleTableChange}
+    //     />
+    //     </div>
+    //   </CommonCard>
+    // </div>
   );
 };
 
