@@ -13,6 +13,23 @@ export const getRateOfExchange = async (token: string|undefined) => {
           'Authorization': `Bearer ${token}`  // Replace with actual token or authorization header
         }
       });
+      
+      
+      return response;  // Return the data for use in other components
+    } catch (error) {
+      console.error('Error fetching merchants:', error);
+      throw error;  // You can throw the error to handle it in the component
+    }
+  };
+
+  export const getCriptoUrl = async (token: string|undefined) => {
+    try {
+      const response = await axios.get(`${BACKEND_DOMAIN}/app-payment/crypto-addresses/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`  // Replace with actual token or authorization header
+        }
+      });
       console.log(response);
       
       return response;  // Return the data for use in other components
