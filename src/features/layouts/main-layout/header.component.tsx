@@ -1,6 +1,6 @@
 "use client";
 
-import { getCriptoUrl, getRateOfExchange } from "@/api/header";
+import { createPrePayment, getCriptoUrl, getRateOfExchange } from "@/api/header";
 import {
   LogoutOutlined,
   MenuFoldOutlined,
@@ -42,7 +42,7 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
   const { Text } = Typography;
   const status = "authenticated";
   const [form] = Form.useForm();
-  const[addressTRC,setAddressTRC]=useState()
+  const [addressTRC, setAddressTRC] = useState();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -81,7 +81,7 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
     try {
       const token: string | undefined = Cookies.get("accessToken");
       const response = await getCriptoUrl(token);
-      setAddressTRC(response?.data?.address)
+      setAddressTRC(response?.data?.address);
       console.log("Response", response);
     } catch {
     } finally {
@@ -100,7 +100,6 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
       ))}
     </Menu>
   );
-  
 
   // Function to show the modal
   const showModal = () => {
@@ -113,50 +112,63 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
   };
 
   // Function to handle form submission
-  const handleSubmit = (values:any) => {
-    console.log('Form Submitted:', values);
-    // Reset form except Address TRC field
-    form.resetFields(['amount', 'trxId', 'screenshot']);
+  const handleSubmit = async (values: any) => {
+    setLoading(true);
+    const payload = {
+      address: addressTRC, // Capture address from state
+      amount: values.amount,
+      trxId: values.trxId,
+      screenshot: fileList[0]?.thumbUrl || null, // Extract thumbUrl or set to null if no file
+    };
+  
+    try {
+      await createPrePayment(payload);
+      // message.success('Prepayment successful !');
+      // router.push('/success-page'); // Redirect to success page
+    } catch {
+      message.error("Couldn't create new merchant"); // Display error message
+    } finally {
+      setLoading(false);
+    }
+    
   };
 
-  // Function to handle the image upload
-  const handleImageUpload = (file:any) => {
+
+   const handleImageUpload = (file: any) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result); // Base64 format
+      reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
   };
 
-  // Function to copy Address TRC to clipboard
-  // const handleCopy = () => {
-  //   navigator.clipboard.writeText(addressTRC).then(() => {
-  //     message.success('Address copied to clipboard!');
-  //   }).catch(() => {
-  //     message.error('Failed to copy address!');
-  //   });
-  // };
+  // File change handler - ensures fileList is always in array format
+  const handleFileChange = ({ fileList: newFileList }: any) => {
+    setFileList(Array.isArray(newFileList) ? newFileList : []); // Ensure fileList is an array
+  };
+
 
   // State to manage file list
-  const [fileList, setFileList] = useState([]);
+  const [fileList, setFileList] = useState<any>([]);
 
-  // Handle file change
-  const handleFileChange = ({ fileList }) => {
-    setFileList(fileList); // Ensure fileList is an array
-  };
 
   // Function to copy Address TRC to clipboard
   const handleCopy = () => {
-    navigator.clipboard
-      .writeText(addressTRC)
-      .then(() => {
-        message.success("Address copied to clipboard!");
-      })
-      .catch(() => {
-        message.error("Failed to copy address!");
-      });
+    if (addressTRC) {
+      navigator.clipboard
+        .writeText(addressTRC)
+        .then(() => {
+          message.success("Address copied to clipboard!");
+        })
+        .catch(() => {
+          message.error("Failed to copy address!");
+        });
+    } else {
+      message.error("No address available to copy!");
+    }
   };
+  
 
   return (
     <>
@@ -236,109 +248,96 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
       </Header>
       {isModalVisible && (
         <Modal
-        visible={isModalVisible}
-        onCancel={handleCancel}
-        footer={null}
-        centered
-        maskClosable={true}
-        zIndex={1500}
-        bodyStyle={{ padding: '20px' }}
-      >
-        {/* Form Content */}
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleSubmit}
+          open={isModalVisible}
+          onCancel={handleCancel}
+          footer={null}
+          centered
+          maskClosable={true}
+          zIndex={1500}
+          style={{ padding: "20px" }}
         >
-          {/* Address TRC Field */}
-          <Form.Item label="Address TRC">
-            <Input
-              value={addressTRC}
-              readOnly
-              addonAfter={
-                <Button
-                  icon={<CopyOutlined />}
-                  type="text"
-                  onClick={handleCopy}
-                  style={{ border: 'none', padding: 0 }}
-                />
-              }
-            />
-          </Form.Item>
+          {/* Form Content */}
+          <Form form={form} layout="vertical" onFinish={handleSubmit}>
+            <Form.Item label="Address TRC">
+              <Input
+                value={addressTRC}
+                readOnly
+                addonAfter={
+                  <Button
+                    icon={<CopyOutlined />}
+                    type="text"
+                    onClick={handleCopy}
+                    style={{ border: "none", padding: 0 }}
+                  />
+                }
+              />
+            </Form.Item>
 
-          {/* Amount Field */}
-          <Form.Item
-            name="amount"
-            label="Amount"
-            rules={[{ required: true, message: 'Please enter the amount' }]}
-          >
-            <Input placeholder="Enter amount (e.g., 500 USD)" />
-          </Form.Item>
-
-          {/* Transaction ID Field */}
-          <Form.Item
-            name="trxId"
-            label="TrxID"
-            rules={[{ required: true, message: 'Please enter the Transaction ID' }]}
-          >
-            <Input placeholder="Enter Transaction ID" />
-          </Form.Item>
-
-          {/* Screenshot Upload Field */}
-          <Form.Item
-            name="screenshot"
-            label="Screenshot"
-            valuePropName="fileList"
-            getValueFromEvent={(e) => {
-              // Make sure to handle the event as an array
-              const fileList = Array.isArray(e) ? e : e?.fileList;
-              return fileList || [];
-            }}
-            rules={[{ required: true, message: 'Please upload a screenshot' }]}
-          >
-            <Upload
-              name="screenshot"
-              listType="picture"
-              fileList={fileList}
-              onChange={handleFileChange}
-              customRequest={({ file, onSuccess }) => {
-                handleImageUpload(file)
-                  .then((base64) => {
-                    if (onSuccess) {
-                      onSuccess("ok");
-                    }
-                    form.setFieldsValue({ screenshot: base64 });
-                  })
-                  .catch((error) => {
-                    message.error('Failed to upload image');
-                  });
-              }}
+            <Form.Item
+              name="amount"
+              label="Amount"
+              rules={[{ required: true, message: "Please enter the amount" }]}
             >
-              <Button icon={<UploadOutlined />}>Upload Screenshot</Button>
-            </Upload>
-          </Form.Item>
+              <Input placeholder="Enter amount (e.g., 500 USD)" />
+            </Form.Item>
 
-          {/* Action Buttons */}
-          <Form.Item>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Button
-                danger
-                onClick={() => {
-                  form.resetFields(['amount', 'trxId', 'screenshot']);
+            <Form.Item
+              name="trxId"
+              label="TrxID"
+              rules={[{ required: true, message: "Please enter the Transaction ID" }]}
+            >
+              <Input placeholder="Enter Transaction ID" />
+            </Form.Item>
+
+            <Form.Item
+              name="screenshot"
+              label="Screenshot"
+              valuePropName="fileList"
+              getValueFromEvent={(e) => Array.isArray(e?.fileList) ? e.fileList : []} // Ensure fileList is an array
+              rules={[{ required: true, message: "Please upload a screenshot" }]}
+            >
+              <Upload
+                name="screenshot"
+                listType="picture"
+                fileList={fileList}
+                onChange={handleFileChange} // Update fileList in state
+                beforeUpload={() => false} // Prevent auto-upload
+                customRequest={({ file, onSuccess }) => {
+                  handleImageUpload(file)
+                    .then((base64) => {
+                      if (onSuccess) {
+                        onSuccess("ok");
+                      }
+                      form.setFieldsValue({ screenshot: base64 });
+                    })
+                    .catch(() => message.error("Failed to upload image"));
                 }}
               >
-                Clear
-              </Button>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </div>
-          </Form.Item>
-        </Form>
-      </Modal>
+                <Button icon={<UploadOutlined />}>Upload Screenshot</Button>
+              </Upload>
+            </Form.Item>
+
+            <Form.Item>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <Button
+                  danger
+                  onClick={() => form.resetFields(["amount", "trxId", "screenshot"])}
+                >
+                  Clear
+                </Button>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+              </div>
+            </Form.Item>
+          </Form>
+        </Modal>
       )}
     </>
   );
 };
 
 export default SiteHeader;
+
+
+
