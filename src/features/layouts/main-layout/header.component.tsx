@@ -43,6 +43,7 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
   const status = "authenticated";
   const [form] = Form.useForm();
   const [addressTRC, setAddressTRC] = useState();
+  const [addressTRCId, setAddressTRCId] = useState<number>();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -82,7 +83,7 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
       const token: string | undefined = Cookies.get("accessToken");
       const response = await getCriptoUrl(token);
       setAddressTRC(response?.data?.address);
-      console.log("Response", response);
+      setAddressTRCId(response?.data?.id);
     } catch {
     } finally {
       setLoading(false); // Stop loading once data is fetched
@@ -115,12 +116,13 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
   const handleSubmit = async (values: any) => {
     setLoading(true);
     const payload = {
-      address: addressTRC, // Capture address from state
-      amount: values.amount,
-      trxId: values.trxId,
-      screenshot: fileList[0]?.thumbUrl || null, // Extract thumbUrl or set to null if no file
+      address_trc: addressTRCId, // Capture address from state
+      amount: parseFloat(values.amount),
+      trxID: values.trxId,
+      payment_screenshot: fileList[0]?.thumbUrl || null, // Extract thumbUrl or set to null if no file
+      transaction_type: "prepayment"
     };
-  
+
     try {
       await createPrePayment(payload);
       // message.success('Prepayment successful !');
@@ -130,7 +132,7 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
     } finally {
       setLoading(false);
     }
-    
+
   };
 
 
@@ -168,7 +170,7 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
       message.error("No address available to copy!");
     }
   };
-  
+
 
   return (
     <>
