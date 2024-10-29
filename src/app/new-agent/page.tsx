@@ -1,7 +1,9 @@
 "use client";
-import React, { useState } from "react";
-import { Form, Input, Select, Upload, Row, Col, Button } from "antd";
+import React, { useEffect, useState } from "react";
+import { Form, Input, Select, Upload, Row, Col, Button, Checkbox } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import { getBankData } from "@/api/bank";
+import Cookies from "js-cookie";
 
 const { Option } = Select;
 
@@ -11,6 +13,35 @@ const Page = () => {
   const [backImage, setBackImage] = useState(null);
   const [selfieImage, setSelfieImage] = useState(null);
   const [form] = Form.useForm();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedProviders, setSelectedProviders] = useState<any>([]);
+  const fetchBankData = async () => {
+    setLoading(true);
+    // Reset error before fetching
+    try {
+      const token: string | undefined = Cookies.get("accessToken");
+      const response = await getBankData(token);
+      if (response.status == 200) {
+        const bankDataWithId = response?.data?.map((item: any, index: any) => ({
+          ...item,
+          id: index + 1, // Add a sequential id starting from 1
+        }));
+        setData(bankDataWithId);
+      }
+      // Assuming response.data contains the merchants array
+    } catch {
+      // setError('Failed to fetch merchant data');
+      // message.error('Error fetching merchants');
+    } finally {
+      setLoading(false); // Stop loading once data is fetched
+    }
+    setLoading(false);
+  };
+  useEffect(() => {
+    fetchBankData();
+  }, []);
+
   const handleImageChange = (info: any, setImage: any) => {
     if (info.file.status !== "removed") {
       const file = info.file;
@@ -41,6 +72,27 @@ const Page = () => {
     setBackImage(null);
     setSelfieImage(null);
   };
+  const handleCheckboxChange = (bankId:any) => {
+    setSelectedProviders((prevSelected:any) => {
+      if (prevSelected.includes(bankId)) {
+        return prevSelected.filter((id:any) => id !== bankId);
+      } else {
+        return [...prevSelected, bankId];
+      }
+    });
+  };
+
+  const handleSelectAll = (e:any) => {
+    if (e.target.checked) {
+      const allBankIds = data.map((provider:any) => provider.bank_id);
+      setSelectedProviders(allBankIds);
+    } else {
+      setSelectedProviders([]);
+    }
+  };
+
+  const isAllSelected =
+    data.length > 0 && selectedProviders.length === data.length;
   return (
     <Form
       name="create_user_form"
@@ -301,74 +353,35 @@ const Page = () => {
               </Col>
             </Row>
           </div>
-          <div className=" bg-slate-50  rounded-md  p-3 mt-2">
-            <h2 className="text-lg font-semibold mb-4">Provider Details</h2>
+          <div className="bg-slate-50 rounded-md p-3 mt-2">
+            <h2 className="text-lg font-semibold mb-4">Select Provider Bank</h2>
+            <Checkbox checked={isAllSelected} onChange={handleSelectAll}>
+              Check All
+            </Checkbox>
+
             <Row gutter={16}>
-              <Col xs={24} md={12}>
-                <Form.Item
-                  name="providerType"
-                  label="Provider Type"
-                  rules={[{ required: true, message: "Select Provider Type" }]}
-                >
-                  <Select
-                    placeholder="Select Verification Type"
-                    onChange={(value) => setVerificationType(value)}
+              {data.map((provider:any) => (
+                <Col xs={24} md={24} key={provider.bank_id}>
+                  {" "}
+                  {/* Each checkbox in its own column */}
+                  <Checkbox
+                    checked={selectedProviders.includes(provider.bank_id)}
+                    onChange={() => handleCheckboxChange(provider.bank_id)}
                   >
-                    <Option value="bkash">Bkash</Option>
-                    <Option value="nagad">Nagad</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-              <Col xs={24} md={12}>
-                <Form.Item
-                  name="providerPassword"
-                  label="Provider Password"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input the Provider Password",
-                    },
-                  ]}
-                >
-                  <Input.Password placeholder="Password" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} md={12}>
-                <Form.Item
-                  name="apiKey"
-                  label="Api Key"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input the Api Key",
-                    },
-                  ]}
-                >
-                  <Input placeholder="Api Key" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} md={12}>
-                <Form.Item
-                  name="secretKey"
-                  label="Secret Key"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input the Secret Key",
-                    },
-                  ]}
-                >
-                  <Input placeholder="Secret Key" />
-                </Form.Item>
-              </Col>
+                    <div className="py-1 text-blue-600">
+                   Bank Name: {provider.name} || Bank ID: {provider.bank_id} || Account Number: {provider.phone_number}
+                    </div>
+                   
+                  </Checkbox>
+                </Col>
+              ))}
             </Row>
           </div>
           <div className="flex justify-end mt-2  p-3">
             <Button
-              type="primary"
               htmlType="submit"
               size="large"
-              className="mr-3"
+              className="mr-3 !bg-orange-600 !text-white"
             >
               Submit
             </Button>
