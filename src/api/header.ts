@@ -42,9 +42,9 @@ export const getRateOfExchange = async (token: string|undefined) => {
   export const createPrePayment = async (payload:any) => {
     try {
       // Make API request to create user and merchant
-      const response = await axios.post(`${BACKEND_DOMAIN}/app-payment/prepayment/`, {
+      const response = await axios.post(`${BACKEND_DOMAIN}/app-payment/prepayment/`, 
        payload
-      });
+      );
       return response.data; // Return the data from the response
     } catch (error) {
       // Handle error and throw a new error with a message

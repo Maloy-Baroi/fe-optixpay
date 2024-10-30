@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Table, Tag } from "antd";
 import { useRouter } from "next/navigation";
+import { getBankData } from "@/api/bank";
+import Cookies from "js-cookie";
 const columns = [
   {
     title: "ID",
@@ -88,12 +90,13 @@ const CreateAgent: React.FC = () => {
     fetchMerchants();
   }, []);
 
+ 
   return (
     <>
       {error && <div>{error}</div>}
       <div className="mt-10">
         <div className="flex justify-end">
-          <Button onClick={gotoCreateAgent}>
+          <Button onClick={gotoCreateAgent} className="!bg-orange-600 !text-white">
             Create New Agent
           </Button>
         </div>

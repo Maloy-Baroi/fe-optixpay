@@ -1,142 +1,116 @@
 "use client";
 
 import { EditOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Modal, Select, Table } from "antd";
-import { useState } from "react";
+import { Button, Form, Input, message, Modal, Select, Switch, Table } from "antd";
+import { useEffect, useState } from "react";
 import CommonCard from "../ui/card/common-card";
 import ModuleHeader from "../ui/module-header/module-header";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { getBankData, updateBankAccountStatus } from "@/api/bank";
 const { Option } = Select;
+
+
+
+
 const Balances = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [form] = Form.useForm();
-
-  const dataSource = [
-    {
-      key: "1",
-      paymentMethod: "Credit Card",
-      paymentAmount: 1000,
-      commission: 100,
-      providerNet: 900,
-      paidAmount: 800,
-      adjustment: 50,
-      balance: 50,
-    },
-    {
-      key: "2",
-      paymentMethod: "Credit Card",
-      paymentAmount: 1000,
-      commission: 100,
-      providerNet: 900,
-      paidAmount: 8060,
-      adjustment: 503,
-      balance: 580,
-    },
-    {
-      key: "3",
-      paymentMethod: "Debit Card",
-      paymentAmount: 106700,
-      commission: 10540,
-      providerNet: 900,
-      paidAmount: 80450,
-      adjustment: 580,
-      balance: 540,
-    },
-    // Add more data as needed
-  ];
-
   const columns = [
     {
       title: "Bank Id",
-      dataIndex: "paymentMethod",
-      key: "paymentMethod",
+      dataIndex: "bank_id",
+      key: "bank_id",
     },
     {
       title: "Bank Name",
-      dataIndex: "paymentAmount",
-      key: "paymentAmount",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "Bank Number",
-      dataIndex: "commission",
-      key: "commission",
+      dataIndex: "phone_number",
+      key: "phone_number",
     },
     {
       title: "Trx Type",
-      dataIndex: "providerNet",
-      key: "providerNet",
+      dataIndex: "trx_type",
+      key: "trx_type",
     },
     {
       title: "Bank Status",
-      dataIndex: "paidAmount",
-      key: "paidAmount",
+      dataIndex: "is_active",
+      key: "is_active",
+      render: (isActive:any, record:any) => (
+        <Switch
+          style={{
+            backgroundColor: isActive ? "green" : "red",  // Green for active, red for inactive
+            borderColor: isActive ? "green" : "red",      // Border color to match the background
+          }}
+          checked={isActive}
+          onChange={(checked) => handleStatusChange(checked, record.id)}
+          checkedChildren="Active"
+          unCheckedChildren="Inactive"
+        />
+      ),
     },
-   
   ];
-
-  const showModal = (record: any) => {
-    setIsModalVisible(true);
-    console.log(record);
+  const router = useRouter();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
+  const gotoCreateAgent = () => {
+    router.push("/new-bank-account");
   };
 
-  const handleOk = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        console.log("Form Values: ", values);
-        setIsModalVisible(false);
-        form.resetFields();
-      })
-      .catch((info) => {
-        console.log("Validation Failed:", info);
-      });
+  const fetchBankData = async () => {
+    setLoading(true);
+    setError(null); // Reset error before fetching
+    try {
+      const token:string|undefined = Cookies.get("accessToken");
+      const response = await getBankData(token);
+      if(response.status==200){
+        const bankDataWithId = response?.data?.map((item:any, index:any) => ({
+          ...item,
+          id: index + 1, // Add a sequential id starting from 1
+        }));
+        setData(bankDataWithId);
+      }
+        // Assuming response.data contains the merchants array
+    } catch {
+      // setError('Failed to fetch merchant data');
+      // message.error('Error fetching merchants');
+    } finally {
+      setLoading(false);  // Stop loading once data is fetched
+    }
+    setLoading(false);
   };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
+  useEffect(() => {
+    fetchBankData();
+  }, []);
+  const handleStatusChange = async (isActive:any, Id:any) => {
+    try {
+      // Construct the payload for updating the status
+      const payload = { is_active: isActive };
+      await updateBankAccountStatus(payload,Id);
+      // API call to update the status
+     
+      // Optionally show a success message
+      message.success(`Status updated to ${isActive ? "Active" : "Inactive"}`);
+    } catch (error) {
+      // Handle any error that occurs
+      message.error("Failed to update status. Please try again.");
+    }
   };
   return (
     <div>
-      <ModuleHeader title="Balances" />
-      <CommonCard title="Bangladeshi Taka (BDT)" bordered={false}>
-        <Table dataSource={dataSource} columns={columns} />
-
-        <Modal
-          title="Request Prepayment"
-          open={isModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-        >
-          <Form form={form} layout="vertical">
-            <Form.Item
-              name="prepaymentAmount"
-              label="Prepayment Amount"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter the prepayment amount",
-                },
-              ]}
-            >
-              <Input type="number" />
-            </Form.Item>
-
-            <Form.Item
-              name="channel"
-              label="Channel"
-              rules={[{ required: true, message: "Please select a channel" }]}
-            >
-              <Select placeholder="Select a channel">
-                <Option value="bank">Bank</Option>
-                <Option value="paypal">PayPal</Option>
-              </Select>
-            </Form.Item>
-
-            <Form.Item name="note" label="Note">
-              <Input.TextArea rows={3} />
-            </Form.Item>
-          </Form>
-        </Modal>
-      </CommonCard>
+      <div className="">
+        <div className="flex justify-end mb-3">
+          <Button onClick={gotoCreateAgent} className="!bg-orange-600 !text-white">
+            Create Bank Account
+          </Button>
+        </div>
+        <Table dataSource={data} columns={columns} loading={loading}/>
+    </div>
     </div>
   );
 };
