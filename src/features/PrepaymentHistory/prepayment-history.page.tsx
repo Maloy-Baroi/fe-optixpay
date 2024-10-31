@@ -191,12 +191,12 @@ const PrepaymentHistory = () => {
 
   return (
     <div>
-      <ModuleHeader title="Prepayment History" />
-      <CommonCard title="History" bordered={false}>
+      {/* <ModuleHeader title="Prepayment History" /> */}
+      <CommonCard title="Prepayment  History" bordered={false}>
         <Card bordered={false} className="!shadow">
           {" "}
           <Form form={form} onFinish={handleSubmit} layout="vertical">
-            <div className=" grid grid-cols-1 md:grid-cols-2  gap-x-4">
+            <div className=" grid grid-cols-1 md:grid-cols-3  gap-x-4">
               <Form.Item
                 label="Start Date"
                 name="startDate"
@@ -225,22 +225,24 @@ const PrepaymentHistory = () => {
                   placeholder="Select end date"
                 />
               </Form.Item>
-            </div>
-            <div className=" flex items-center justify-center">
+              <div className=" flex items-center justify-center mt-6">
               {" "}
               <Form.Item>
+              <Button  htmlType="submit"  className="!bg-orange-600 !text-white mr-3 !w-[100px]">
+                  Filter
+                </Button>
                 <Button
                   htmlType="button"
                   onClick={handleReset}
-                  className="mr-3"
+                  className=""
                 >
                   Reset
                 </Button>
-                <Button type="primary" htmlType="submit">
-                  Filter
-                </Button>
+                
               </Form.Item>
             </div>
+            </div>
+            
           </Form>
         </Card>
 
