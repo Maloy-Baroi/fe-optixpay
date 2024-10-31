@@ -103,7 +103,8 @@ const Balances = () => {
   };
   return (
     <div>
-      <div className="">
+       <CommonCard title="Bank Account" bordered={false}>
+       <div className="">
         <div className="flex justify-end mb-3">
           <Button onClick={gotoCreateAgent} className="!bg-orange-600 !text-white">
             Create Bank Account
@@ -111,6 +112,8 @@ const Balances = () => {
         </div>
         <Table dataSource={data} columns={columns} loading={loading}/>
     </div>
+       </CommonCard>
+      
     </div>
   );
 };

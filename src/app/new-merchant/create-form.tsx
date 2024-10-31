@@ -4,6 +4,7 @@ import React, {Suspense, useState} from 'react';
 import { Form, Input, Button, message } from 'antd';
 // import { useRouter } from 'next/navigation';
 import { createUserAndMerchant, UserValues, MerchantValues } from '@/api/merchant'; // Adjust the path
+import CommonCard from '@/features/ui/card/common-card';
 
 const CreateUserMerchantForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,13 +38,14 @@ const CreateUserMerchantForm: React.FC = () => {
   };
 
   return (
+    <CommonCard title="Merchant Form" bordered={false}>
     <Form
       name="create_user_form"
       layout="vertical"
       onFinish={onFinish}
     >
       <h2>Create New User</h2>
-
+      <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-4">
       <Form.Item
         name="email"
         label="User Email"
@@ -67,9 +69,11 @@ const CreateUserMerchantForm: React.FC = () => {
       >
         <Input.Password placeholder="Password" />
       </Form.Item>
+      </div>
+      
 
       <h2>Create Merchant</h2>
-
+      <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-4">
       <Form.Item
         name="merchantName"
         label="Merchant Name"
@@ -95,11 +99,15 @@ const CreateUserMerchantForm: React.FC = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading}>
+        <Button className='!bg-orange-600 !text-white mt-6' htmlType="submit" loading={loading}>
           Submit
         </Button>
       </Form.Item>
+      </div>
+     
     </Form>
+    </CommonCard>
+   
   );
 };
 

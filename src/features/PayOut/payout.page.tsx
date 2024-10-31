@@ -1,7 +1,7 @@
 "use client";
 import { Button, Card, DatePicker, Form, Input } from "antd";
 import dayjs from "dayjs";
-import ModuleHeader from "../ui/module-header/module-header";
+// import ModuleHeader from "../ui/module-header/module-header";
 const PayOut = () => {
   const [form] = Form.useForm();
 
@@ -23,10 +23,10 @@ const PayOut = () => {
   };
   return (
     <div>
-      <ModuleHeader title="Pay Out" />
-      <Card bordered={false} className="!shadow">
+      {/* <ModuleHeader title="Pay Out" /> */}
+      <Card bordered={false} title="Withdraw" className="!shadow">
         <Form form={form} onFinish={handleSubmit} layout="vertical">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4">
             <Form.Item
               label="Transaction ID"
               name="transactionId"
@@ -64,18 +64,20 @@ const PayOut = () => {
                 placeholder="Select end date"
               />
             </Form.Item>
-          </div>
-          <div className=" flex items-center justify-center">
+            <div className=" flex items-center justify-center mt-6">
             {" "}
             <Form.Item>
-              <Button htmlType="button" onClick={handleReset} className="mr-3">
-                Reset
-              </Button>
-              <Button type="primary" htmlType="submit">
+            <Button  htmlType="submit" className="!bg-orange-600 !text-white mr-3 !w-[100px]">
                 Filter
               </Button>
+              <Button htmlType="button" onClick={handleReset} className="">
+                Reset
+              </Button>
+             
             </Form.Item>
           </div>
+          </div>
+         
         </Form>
       </Card>
       <div className="py-3">

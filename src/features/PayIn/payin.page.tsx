@@ -25,9 +25,9 @@ const PayIn = () => {
   };
   return (
     <div>
-      <ModuleHeader title="Transaction" />
+      {/* <ModuleHeader title="Transaction" /> */}
       <div>
-        <CommonCard title="Pay In" bordered={false}>
+        <CommonCard title="Deposit" bordered={false}>
           <Card bordered={false} className="!shadow">
             <Form form={form} onFinish={handleSubmit} layout="vertical">
               <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-4">
@@ -125,10 +125,12 @@ const PayIn = () => {
                     <Option value="failed">Failed</Option>
                   </Select>
                 </Form.Item>
-              </div>
-              <div className=" flex items-center justify-center">
+                <div className=" flex items-center justify-center mt-6">
                 {" "}
                 <Form.Item>
+                <Button type="primary" htmlType="submit"  className="!bg-orange-600 !text-white mr-3 !w-[100px]">
+                    Filter
+                  </Button>
                   <Button
                     htmlType="button"
                     onClick={handleReset}
@@ -136,11 +138,11 @@ const PayIn = () => {
                   >
                     Reset
                   </Button>
-                  <Button type="primary" htmlType="submit">
-                    Filter
-                  </Button>
+                  
                 </Form.Item>
               </div>
+              </div>
+             
             </Form>
           </Card>
           <div className="py-3">
