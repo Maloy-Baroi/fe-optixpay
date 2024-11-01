@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Form, Input, Select, Upload, Row, Col, Button, Checkbox } from "antd";
+import { Form, Input, Select, Upload, Row, Col, Button, Checkbox, Card } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { getBankData } from "@/api/bank";
 import Cookies from "js-cookie";
@@ -16,6 +16,8 @@ const Page = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedProviders, setSelectedProviders] = useState<any>([]);
+  console.log(selectedProviders);
+
   const fetchBankData = async () => {
     setLoading(true);
     // Reset error before fetching
@@ -23,11 +25,8 @@ const Page = () => {
       const token: string | undefined = Cookies.get("accessToken");
       const response = await getBankData(token);
       if (response.status == 200) {
-        const bankDataWithId = response?.data?.map((item: any, index: any) => ({
-          ...item,
-          id: index + 1, // Add a sequential id starting from 1
-        }));
-        setData(bankDataWithId);
+       
+        setData(response?.data);
       }
       // Assuming response.data contains the merchants array
     } catch {
@@ -72,20 +71,20 @@ const Page = () => {
     setBackImage(null);
     setSelfieImage(null);
   };
-  const handleCheckboxChange = (bankId:any) => {
-    setSelectedProviders((prevSelected:any) => {
-      if (prevSelected.includes(bankId)) {
-        return prevSelected.filter((id:any) => id !== bankId);
+  const handleCheckboxChange = (id: any) => {
+    setSelectedProviders((prevSelected: any) => {
+      if (prevSelected.includes(id)) {
+        return prevSelected.filter((id: any) => id !== id);
       } else {
-        return [...prevSelected, bankId];
+        return [...prevSelected, id];
       }
     });
   };
 
-  const handleSelectAll = (e:any) => {
+  const handleSelectAll = (e: any) => {
     if (e.target.checked) {
-      const allBankIds = data.map((provider:any) => provider.bank_id);
-      setSelectedProviders(allBankIds);
+      const allIds = data.map((provider: any) => provider.id);
+      setSelectedProviders(allIds);
     } else {
       setSelectedProviders([]);
     }
@@ -102,7 +101,7 @@ const Page = () => {
     >
       <div className="flex w-full justify-between gap-3">
         <div className="w-1/3">
-          <div className=" bg-slate-50  rounded-md  p-3">
+          <Card className=" bg-slate-50  rounded-md  p-3">
             <h2 className="text-lg font-semibold mb-4">User Information</h2>
             <Form.Item
               name="name"
@@ -133,10 +132,10 @@ const Page = () => {
             >
               <Input.Password placeholder="Password" />
             </Form.Item>
-          </div>
+          </Card>
         </div>
         <div className="w-2/3 flex flex-col">
-          <div className=" bg-slate-50  rounded-md  p-3">
+          <Card className=" bg-slate-50  rounded-md  p-3">
             <h2 className="text-lg font-semibold mb-4">Agent Details</h2>
             <Row gutter={16}>
               <Col xs={24} md={12}>
@@ -352,36 +351,50 @@ const Page = () => {
                 </Form.Item>
               </Col>
             </Row>
-          </div>
+          </Card>
           <div className="bg-slate-50 rounded-md p-3 mt-2">
-            <h2 className="text-lg font-semibold mb-4">Select Provider Bank</h2>
-            <Checkbox checked={isAllSelected} onChange={handleSelectAll}>
-              Check All
-            </Checkbox>
+          <Card>
+            <Form.Item
+              name="Provider"
+              // label="Selfie with Document"
+              rules={[
+                { required: true, message: " ProvideSelfie with Document" },
+              ]}
+            >
+              <h2 className="text-lg font-semibold mb-4">
+                Select Provider Bank
+              </h2>
+              
+              <Checkbox checked={isAllSelected} onChange={handleSelectAll}>
+                Check All
+              </Checkbox>
 
-            <Row gutter={16}>
-              {data.map((provider:any) => (
-                <Col xs={24} md={24} key={provider.bank_id}>
-                  {" "}
-                  {/* Each checkbox in its own column */}
-                  <Checkbox
-                    checked={selectedProviders.includes(provider.bank_id)}
-                    onChange={() => handleCheckboxChange(provider.bank_id)}
-                  >
-                    <div className="py-1 text-blue-600">
-                   Bank Name: {provider.name} || Bank ID: {provider.bank_id} || Account Number: {provider.phone_number}
-                    </div>
-                   
-                  </Checkbox>
-                </Col>
-              ))}
-            </Row>
+              <Row gutter={16}>
+                {data.map((provider: any) => (
+                  <Col xs={24} md={24} key={provider.id}>
+                    {" "}
+                    {/* Each checkbox in its own column */}
+                    <Checkbox
+                      checked={selectedProviders.includes(provider.id)}
+                      onChange={() => handleCheckboxChange(provider.id)}
+                    >
+                      <div className="py-1 text-blue-600">
+                        Bank Name: {provider.name} || Bank ID:{" "}
+                        {provider.bank_id} || Account Number:{" "}
+                        {provider.phone_number}
+                      </div>
+                    </Checkbox>
+                  </Col>
+                ))}
+              </Row>
+            </Form.Item>
+            </Card>
           </div>
           <div className="flex justify-end mt-2  p-3">
             <Button
               htmlType="submit"
               size="large"
-              className="mr-3 !bg-orange-600 !text-white"
+              className="mr-3 !bg-orange-600 !text-white !w-[100px]"
             >
               Submit
             </Button>
