@@ -1,35 +1,69 @@
 "use client";
-import { Button, Card, DatePicker, Form, Input, Select } from "antd";
+import {
+  Button,
+  Card,
+  DatePicker,
+  Form,
+  Input,
+  Select,
+  Table,
+  Tag,
+} from "antd";
 import dayjs from "dayjs";
 import CommonCard from "../ui/card/common-card";
-import ModuleHeader from "../ui/module-header/module-header";
-const { Option } = Select;
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { getDepositData } from "@/api/depositPage";
+
+// const { Option } = Select;
 const PayIn = () => {
-  const [form] = Form.useForm();
-
-  const handleSubmit = (values: any) => {
-    const formattedValues = {
-      ...values,
-      startDate: values.startDate
-        ? dayjs(values.startDate).format("DD-MM-YYYY")
-        : null,
-      endDate: values.endDate
-        ? dayjs(values.endDate).format("DD-MM-YYYY")
-        : null,
-    };
-    console.log("Form Submitted:", formattedValues);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const fetchDepositData = async () => {
+    try {
+      setLoading(true);
+      const token: string | undefined = Cookies.get("accessToken");
+      const response = await getDepositData(token);
+      if (response.status == 200) {
+        setData(response.data);
+      }
+    } catch {
+      // Assuming response.data contains the merchants array
+      // setError('Failed to fetch merchant data');
+      // message.error('Error fetching merchants');
+    } finally {
+      setLoading(false); // Stop loading once data is fetched
+    }
+    setLoading(false);
   };
+  useEffect(() => {
+    fetchDepositData();
+  }, []);
+  // const [form] = Form.useForm();
 
-  const handleReset = () => {
-    form.resetFields();
-  };
+  // const handleSubmit = (values: any) => {
+  //   const formattedValues = {
+  //     ...values,
+  //     startDate: values.startDate
+  //       ? dayjs(values.startDate).format("DD-MM-YYYY")
+  //       : null,
+  //     endDate: values.endDate
+  //       ? dayjs(values.endDate).format("DD-MM-YYYY")
+  //       : null,
+  //   };
+  //   console.log("Form Submitted:", formattedValues);
+  // };
+
+  // const handleReset = () => {
+  //   form.resetFields();
+  // };
   return (
     <div>
       {/* <ModuleHeader title="Transaction" /> */}
       <div>
         <CommonCard title="Deposit" bordered={false}>
-          <Card bordered={false} className="!shadow">
-            <Form form={form} onFinish={handleSubmit} layout="vertical">
+          {/* <Card bordered={false} className="!shadow"> */}
+          {/* <Form form={form} onFinish={handleSubmit} layout="vertical">
               <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-4">
                 <Form.Item
                   label="Payment ID"
@@ -143,11 +177,18 @@ const PayIn = () => {
               </div>
               </div>
              
-            </Form>
-          </Card>
-          <div className="py-3">
-            <p className="text-center">No transactions found!</p>
+            </Form> */}
+          <div className="mt-2">
+            <Table
+              dataSource={data?.length > 0 ? data : []}
+              bordered
+              columns={columns}
+              rowKey="id" // Ensure rowKey is set to a unique field like 'id'
+              loading={loading} // Show loading spinner while data is being fetched
+              pagination={false}
+            />
           </div>
+          {/* </Card> */}
         </CommonCard>
       </div>
     </div>
@@ -155,3 +196,61 @@ const PayIn = () => {
 };
 
 export default PayIn;
+
+const columns = [
+  {
+    title: "Order ID || Date and Time",
+    dataIndex: "trxID",
+    key: "id",
+    render: (text: any, record: any) => (
+      <>
+        <div>{record.trxID}</div>
+        <div>{record.created_at}</div>
+      </>
+    ),
+  },
+
+  {
+    title: "Bank",
+    dataIndex: "paymentMethod",
+    key: "paymentMethod",
+  },
+  {
+    title: "Bank Number",
+    dataIndex: "payerAccount",
+    key: "payerAccount",
+  },
+  {
+    title: "Amount",
+    dataIndex: "amount",
+    key: "amount",
+  },
+  {
+    title: "Commission",
+    dataIndex: "commission",
+    key: "commission",
+  },
+  {
+    title: "After Commission",
+    dataIndex: "after_commission",
+    key: "after_commission",
+  },
+  {
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
+    render: (status: string) => (
+      <Tag
+        color={
+          status === "successful"
+            ? "green"
+            : status === "failed" || status === "rejected"
+            ? "red"
+            : "pink"
+        }
+      >
+        {status}
+      </Tag>
+    ),
+  },
+];
