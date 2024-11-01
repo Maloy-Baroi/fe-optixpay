@@ -11,7 +11,7 @@ import {
 
 export const menuItems = [
   {
-    group: "Dashboard",
+    // group: "Dashboard",
     items: [
       {
         label: "Dashboard",
@@ -22,7 +22,7 @@ export const menuItems = [
     ],
   },
   {
-    group: "Transactions",
+    // group: "Transactions",
     items: [
       {
         label: "Deposit",
@@ -45,7 +45,7 @@ export const menuItems = [
     ],
   },
   {
-    group: "Prepayment",
+    // group: "Prepayment",
     items: [
       {
         label: "Prepayment Requests",
@@ -62,7 +62,7 @@ export const menuItems = [
     ],
   },
   {
-    group: "Balances",
+    // group: "Balances",
     items: [
       {
         label: "Bank",
@@ -79,7 +79,7 @@ export const menuItems = [
     ],
   },
   {
-    group: "Settings",
+    // group: "Settings",
     items: [
       {
         label: "Add Bank Account",

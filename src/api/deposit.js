@@ -4,9 +4,9 @@ const BACKEND_DOMAIN = process.env.NEXT_PUBLIC_DEVELOPMENT === "true"
   ? "http://localhost:8000/api/v1"
   : process.env.NEXT_PUBLIC_API_URL;
 
-// const FRONTEND_DOMAIN = process.env.NEXT_PUBLIC_DEVELOPMENT === "true"
-//   ? "http://localhost:3000"
-//   : process.env.NEXT_PUBLIC_FRONTEND_API_URL;
+const FRONTEND_DOMAIN = process.env.NEXT_PUBLIC_DEVELOPMENT === "true"
+  ? "http://localhost:3000"
+  : process.env.NEXT_PUBLIC_FRONTEND_API_URL;
 
 const depositListApiCall = async (token) => {
   const config = {
@@ -39,7 +39,7 @@ const depositBKashPayCreate = async (id_token, appKey, secretKey, username, pass
   const data = {
     "id_token": id_token,
     "x_app_key": appKey,
-    "callback_url": `http://optixpay.com/call-back`,
+    "callback_url": `${FRONTEND_DOMAIN}/call-back`,
     // "secretKey": secretKey,
     "payer_reference": username,
     "amount": paymentAmount,
@@ -78,7 +78,7 @@ const depositNagadPayCreate = async (id_token, appKey, secretKey, username, pass
   const data = {
     "id_token": id_token,
     "x_app_key": appKey,
-    "callback_url": `http://optixpay.com/call-back`,
+    "callback_url": `${FRONTEND_DOMAIN}/call-back`,
     // "secretKey": secretKey,
     "payer_reference": username,
     "amount": paymentAmount,
