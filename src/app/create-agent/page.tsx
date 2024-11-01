@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Button, Card, Table, Tag } from "antd";
+import {Button, Card, message, Table, Tag} from "antd";
 import { useRouter } from "next/navigation";
 import { getBankData } from "@/api/bank";
 import Cookies from "js-cookie";
 import CommonCard from "@/features/ui/card/common-card";
+import {getAgents, getMerchants} from "@/api/merchant";
 const columns = [
   {
     title: "ID",
@@ -53,7 +54,7 @@ const columns = [
     key: "is_active",
     render: (status: string) => (
       <Tag color={status === "active" ? "green" : "red"}>
-        {status.toUpperCase()}
+        {status?.toUpperCase()}
       </Tag>
     ),
   },
@@ -75,23 +76,23 @@ const CreateAgent: React.FC = () => {
   const fetchMerchants = async () => {
     setLoading(true);
     setError(null); // Reset error before fetching
-    // try {
-    //   const token:string|undefined = Cookies.get("accessToken");
-    //   const response = await getMerchants(token);
-    //   setData(response.data);  // Assuming response.data contains the merchants array
-    // } catch {
-    //   setError('Failed to fetch merchant data');
-    //   message.error('Error fetching merchants');
-    // } finally {
-    //   setLoading(false);  // Stop loading once data is fetched
-    // }
+    try {
+      const token:string|undefined = Cookies.get("accessToken");
+      const response = await getAgents(token);
+      setData(response.data);  // Assuming response.data contains the merchants array
+    } catch {
+      setError('Failed to fetch merchant data');
+      message.error('Error fetching merchants');
+    } finally {
+      setLoading(false);  // Stop loading once data is fetched
+    }
     setLoading(false);
   };
   useEffect(() => {
     fetchMerchants();
   }, []);
 
- 
+
   return (
     <>
       {error && <div>{error}</div>}
@@ -112,8 +113,8 @@ const CreateAgent: React.FC = () => {
           />
         </div>
       </CommonCard>
-       
-     
+
+
     </>
   );
 };

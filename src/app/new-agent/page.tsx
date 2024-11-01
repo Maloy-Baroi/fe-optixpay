@@ -1,11 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Form, Input, Select, Upload, Row, Col, Button, Checkbox, Card } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
-import { getBankData } from "@/api/bank";
+import React, {useEffect, useState} from "react";
+import {Form, Input, Select, Upload, Row, Col, Button, Checkbox, Card, message} from "antd";
+import {UploadOutlined} from "@ant-design/icons";
+import {getBankData} from "@/api/bank";
 import Cookies from "js-cookie";
+import axios from "axios";
 
-const { Option } = Select;
+const {Option} = Select;
+
+const BACKEND_DOMAIN = process.env.NEXT_PUBLIC_DEVELOPMENT === "true"
+  ? "http://localhost:8000/api/v1"
+  : process.env.NEXT_PUBLIC_API_URL;
 
 const Page = () => {
   const [verificationType, setVerificationType] = useState("nid");
@@ -25,7 +30,11 @@ const Page = () => {
       const token: string | undefined = Cookies.get("accessToken");
       const response = await getBankData(token);
       if (response.status == 200) {
-       
+
+        // response?.data?.map((item:any, index:any) => ({
+        //   console.log(item.id);
+        // }))
+
         setData(response?.data);
       }
       // Assuming response.data contains the merchants array
@@ -49,20 +58,41 @@ const Page = () => {
     }
   };
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     const payload = {
-      ...values,
-      frontSideDocument: frontImage,
-      backSideDocument: backImage,
-      selfieWithDocument: selfieImage,
+        user: {
+            username: values.name,
+            email: values.email,
+            password: values.password
+        },
+        agent: {
+            full_name: values.agentName,
+            date_of_birth: values.dateOfBirth,
+            nationality: values.nationality,
+            nid_number: values.nidOrPassportNumber,
+            phone: values.agentPhoneNumber,
+            email: values.agentEmail,
+            verificationType: values.verificationType,
+            telegram_account: values.telegramAccount,
+            documents: {
+                frontSide: values.frontSideDocument,
+                backSide: values.backSideDocument,
+                selfieWithDocument: values.selfieWithDocument
+            }
+        },
+        providers: selectedProviders // Assuming you've maintained the selection state elsewhere
     };
 
     console.log("Payload to submit:", payload);
 
-    // API call example
-    // axios.post("/your-api-endpoint", payload)
-    //   .then(response => message.success("User submitted successfully"))
-    //   .catch(error => message.error("Failed to submit user"));
+    try {
+      console.log("Try")
+        const response = await axios.post(`${BACKEND_DOMAIN}/app-agent/create-user-agent-provider/`, payload);
+        console.log('Submission successful', response.data);
+        // Optionally, handle further logic here, e.g., redirecting the user or updating UI state
+    } catch (error) {
+        console.log(error)
+    }
   };
 
   const onClear = () => {
@@ -107,30 +137,30 @@ const Page = () => {
               name="name"
               label="User Name"
               rules={[
-                { required: true, message: "Please input the user name" },
+                {required: true, message: "Please input the user name"},
               ]}
             >
-              <Input placeholder="User Name" />
+              <Input placeholder="User Name"/>
             </Form.Item>
             <Form.Item
               name="email"
               label="Email"
               rules={[
-                { required: true, message: "Please input the Email" },
+                {required: true, message: "Please input the Email"},
                 {
                   type: "email",
                   message: "Please enter a valid email address",
                 },
               ]}
             >
-              <Input placeholder="Email" />
+              <Input placeholder="Email"/>
             </Form.Item>
             <Form.Item
               name="password"
               label="Password"
-              rules={[{ required: true, message: "Please input the password" }]}
+              rules={[{required: true, message: "Please input the password"}]}
             >
-              <Input.Password placeholder="Password" />
+              <Input.Password placeholder="Password"/>
             </Form.Item>
           </Card>
         </div>
@@ -143,10 +173,10 @@ const Page = () => {
                   name="agentName"
                   label="Full Name"
                   rules={[
-                    { required: true, message: "Please input the full name" },
+                    {required: true, message: "Please input the full name"},
                   ]}
                 >
-                  <Input placeholder="Full Name" />
+                  <Input placeholder="Full Name"/>
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>
@@ -154,14 +184,14 @@ const Page = () => {
                   name="agentEmail"
                   label="Email"
                   rules={[
-                    { required: true, message: "Please input the email" },
+                    {required: true, message: "Please input the email"},
                     {
                       type: "email",
                       message: "Please enter a valid email address",
                     },
                   ]}
                 >
-                  <Input placeholder="Email" />
+                  <Input placeholder="Email"/>
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>
@@ -175,7 +205,7 @@ const Page = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="YYYY-MM-DD" />
+                  <Input placeholder="YYYY-MM-DD"/>
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>
@@ -189,7 +219,7 @@ const Page = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="Phone Number" />
+                  <Input placeholder="Phone Number"/>
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>
@@ -203,14 +233,14 @@ const Page = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="Nationality" />
+                  <Input placeholder="Nationality"/>
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>
                 <Form.Item
                   name="verificationType"
                   label="Verification Type"
-                  rules={[{ required: true }]}
+                  rules={[{required: true}]}
                 >
                   <Select
                     placeholder="Select Verification Type"
@@ -228,8 +258,8 @@ const Page = () => {
                     verificationType === "nid"
                       ? "NID Number"
                       : verificationType === "passport"
-                      ? "Passport Number"
-                      : "Verification Number"
+                        ? "Passport Number"
+                        : "Verification Number"
                   }
                   rules={[
                     {
@@ -243,8 +273,8 @@ const Page = () => {
                       verificationType === "nid"
                         ? "NID Number"
                         : verificationType === "passport"
-                        ? "Passport Number"
-                        : "Verification Number"
+                          ? "Passport Number"
+                          : "Verification Number"
                     }
                   />
                 </Form.Item>
@@ -260,7 +290,7 @@ const Page = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="Telegram Account" />
+                  <Input placeholder="Telegram Account"/>
                 </Form.Item>
               </Col>
               <Col xs={24} md={8}>
@@ -268,7 +298,7 @@ const Page = () => {
                   name="frontSideDocument"
                   label="Front Side Document"
                   rules={[
-                    { required: true, message: " Provide Front Side Document" },
+                    {required: true, message: " Provide Front Side Document"},
                   ]}
                 >
                   <Upload
@@ -285,7 +315,7 @@ const Page = () => {
                         />
                       ) : (
                         <div>
-                          <UploadOutlined /> Upload Front Document
+                          <UploadOutlined/> Upload Front Document
                         </div>
                       )}
                     </div>
@@ -297,7 +327,7 @@ const Page = () => {
                   name="backSideDocument"
                   label="Back Side Document"
                   rules={[
-                    { required: true, message: " Provide Back Side Document" },
+                    {required: true, message: " Provide Back Side Document"},
                   ]}
                 >
                   <Upload
@@ -314,7 +344,7 @@ const Page = () => {
                         />
                       ) : (
                         <div>
-                          <UploadOutlined /> Upload Back Document
+                          <UploadOutlined/> Upload Back Document
                         </div>
                       )}
                     </div>
@@ -326,7 +356,7 @@ const Page = () => {
                   name="selfieWithDocument"
                   label="Selfie with Document"
                   rules={[
-                    { required: true, message: " ProvideSelfie with Document" },
+                    {required: true, message: " ProvideSelfie with Document"},
                   ]}
                 >
                   <Upload
@@ -343,7 +373,7 @@ const Page = () => {
                         />
                       ) : (
                         <div>
-                          <UploadOutlined /> Upload Selfie with Document
+                          <UploadOutlined/> Upload Selfie with Document
                         </div>
                       )}
                     </div>
@@ -353,41 +383,30 @@ const Page = () => {
             </Row>
           </Card>
           <div className="bg-slate-50 rounded-md p-3 mt-2">
-          <Card>
-            <Form.Item
-              name="Provider"
-              // label="Selfie with Document"
-              rules={[
-                { required: true, message: " ProvideSelfie with Document" },
-              ]}
-            >
-              <h2 className="text-lg font-semibold mb-4">
-                Select Provider Bank
-              </h2>
-              
-              <Checkbox checked={isAllSelected} onChange={handleSelectAll}>
-                Check All
-              </Checkbox>
+            <Card>
+                <h2 className="text-lg font-semibold mb-4">
+                  Select Provider Bank
+                </h2>
 
-              <Row gutter={16}>
-                {data.map((provider: any) => (
-                  <Col xs={24} md={24} key={provider.id}>
-                    {" "}
-                    {/* Each checkbox in its own column */}
-                    <Checkbox
-                      checked={selectedProviders.includes(provider.id)}
-                      onChange={() => handleCheckboxChange(provider.id)}
-                    >
-                      <div className="py-1 text-blue-600">
-                        Bank Name: {provider.name} || Bank ID:{" "}
-                        {provider.bank_id} || Account Number:{" "}
-                        {provider.phone_number}
-                      </div>
-                    </Checkbox>
-                  </Col>
-                ))}
-              </Row>
-            </Form.Item>
+                <Checkbox checked={isAllSelected} onChange={handleSelectAll}>
+                  Check All
+                </Checkbox>
+
+                <Row gutter={16}>
+                  {data.map((provider: any, index: number) => (
+                    <Col xs={24} md={24} key={index}>
+                      <Checkbox
+                        checked={selectedProviders.includes(provider['id'])}
+                        onChange={() => handleCheckboxChange(provider['id'])}
+                      >
+                        <div className="py-1 text-blue-600">
+                          Bank Name: {provider.name} || Bank ID: {provider.bank_id} || Account
+                          Number: {provider.phone_number}
+                        </div>
+                      </Checkbox>
+                    </Col>
+                  ))}
+                </Row>
             </Card>
           </div>
           <div className="flex justify-end mt-2  p-3">
