@@ -1,11 +1,16 @@
 "use client";
 import React, {useEffect, useState} from "react";
-import {Form, Input, Select, Upload, Row, Col, Button, Checkbox, Card} from "antd";
+import {Form, Input, Select, Upload, Row, Col, Button, Checkbox, Card, message} from "antd";
 import {UploadOutlined} from "@ant-design/icons";
 import {getBankData} from "@/api/bank";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 const {Option} = Select;
+
+const BACKEND_DOMAIN = process.env.NEXT_PUBLIC_DEVELOPMENT === "true"
+  ? "http://localhost:8000/api/v1"
+  : process.env.NEXT_PUBLIC_API_URL;
 
 const Page = () => {
   const [verificationType, setVerificationType] = useState("nid");
@@ -53,20 +58,41 @@ const Page = () => {
     }
   };
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     const payload = {
-      ...values,
-      frontSideDocument: frontImage,
-      backSideDocument: backImage,
-      selfieWithDocument: selfieImage,
+        user: {
+            username: values.name,
+            email: values.email,
+            password: values.password
+        },
+        agent: {
+            full_name: values.agentName,
+            date_of_birth: values.dateOfBirth,
+            nationality: values.nationality,
+            nid_number: values.nidOrPassportNumber,
+            phone: values.agentPhoneNumber,
+            email: values.agentEmail,
+            verificationType: values.verificationType,
+            telegram_account: values.telegramAccount,
+            documents: {
+                frontSide: values.frontSideDocument,
+                backSide: values.backSideDocument,
+                selfieWithDocument: values.selfieWithDocument
+            }
+        },
+        providers: selectedProviders // Assuming you've maintained the selection state elsewhere
     };
 
     console.log("Payload to submit:", payload);
 
-    // API call example
-    // axios.post("/your-api-endpoint", payload)
-    //   .then(response => message.success("User submitted successfully"))
-    //   .catch(error => message.error("Failed to submit user"));
+    try {
+      console.log("Try")
+        const response = await axios.post(`${BACKEND_DOMAIN}/app-agent/create-user-agent-provider/`, payload);
+        console.log('Submission successful', response.data);
+        // Optionally, handle further logic here, e.g., redirecting the user or updating UI state
+    } catch (error) {
+        console.log(error)
+    }
   };
 
   const onClear = () => {
@@ -358,13 +384,6 @@ const Page = () => {
           </Card>
           <div className="bg-slate-50 rounded-md p-3 mt-2">
             <Card>
-              <Form.Item
-                name="Provider"
-                // label="Selfie with Document"
-                rules={[
-                  {required: true, message: " ProvideSelfie with Document"},
-                ]}
-              >
                 <h2 className="text-lg font-semibold mb-4">
                   Select Provider Bank
                 </h2>
@@ -388,7 +407,6 @@ const Page = () => {
                     </Col>
                   ))}
                 </Row>
-              </Form.Item>
             </Card>
           </div>
           <div className="flex justify-end mt-2  p-3">
