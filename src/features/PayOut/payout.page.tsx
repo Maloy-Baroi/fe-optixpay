@@ -1,10 +1,9 @@
 "use client";
-import { getWidthdrawData } from "@/api/withdraw";
+import { getWidthdrawData, updateWithdrawRequest } from "@/api/withdraw";
 import {
   Button,
   Card,
-  DatePicker,
-  Form,
+  // Form,
   Input,
   message,
   Select,
@@ -12,7 +11,7 @@ import {
   Table,
   Tag,
 } from "antd";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { getBankData } from "@/api/bank";
@@ -22,17 +21,23 @@ import { useRouter } from "next/navigation";
 const PayOut = () => {
   const router = useRouter();
   const { Option } = Select;
-  const [form] = Form.useForm();
-  const [TrxID, setTrxID] = useState<{ [key: string]: string }>({});
-  const [BankSelection, setBankSelection] = useState<{ [key: string]: string }>(
-    {}
-  );
+  // const [form] = Form.useForm();
+  const [TrxID, setTrxID] = useState<any>();
+  const [BankSelection, setBankSelection] = useState<any>();
   const [bankData, setBankData] = useState<any>();
+  const [hydrated, setHydrated] = useState(false);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   console.log(TrxID);
 
-  // const Role: string | undefined = Cookies.get("role");
-  const Role="merchant"
-  
+  const Role: string | undefined = Cookies.get("role");
+  // const Role="agent"
+
+  useEffect(() => {
+    setHydrated(true); // Mark component as hydrated on the client
+  }, []);
+  // 
+
   // console.log(Role);
 
   const columns = [
@@ -103,8 +108,8 @@ const PayOut = () => {
           <Space>
             <Input
               placeholder="Enter Bank TrxID"
-              value={TrxID[record.id] || ""} // Set input value based on TrxID state
-              onChange={(e) => handleInputChange(record.id, e.target.value)} // Update state on change
+              value={TrxID|| ""} // Set input value based on TrxID state
+              onChange={(e) => handleInputChange(e.target.value)} // Update state on change
               style={{ width: "150px" }}
             />
             <Button
@@ -128,9 +133,9 @@ const PayOut = () => {
         <Space>
           <Select
             placeholder="Select Bank"
-            value={BankSelection[record.id] || undefined}
-            onChange={(value) => handleSelectChange(record.id, value)}
-           className="w-[150px]"
+            value={BankSelection || undefined}
+            onChange={(value) => handleSelectChange(value)}
+            className="w-[150px]"
           >
             {bankData?.map((bankData: any) => (
               <Option key={bankData.id} value={bankData.id}>
@@ -165,8 +170,7 @@ const PayOut = () => {
   // const handleReset = () => {
   //   form.resetFields();
   // };
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+ 
 
   const fetchWidthdrawData = async () => {
     try {
@@ -209,36 +213,55 @@ const PayOut = () => {
       fetchBankData();
     }
   }, [Role]);
-  const handleInputChange = (id: string, value: string) => {
-    setTrxID((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
+  const handleInputChange = ( value: string) => {
+    setTrxID(value);
   };
-  const handleSelectChange = (id: string, value: string) => {
-    setBankSelection((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
+  const handleSelectChange = ( value: string) => {
+    setBankSelection(value);
   };
-  const handleSaveBank = (id: string) => {
-    const value = BankSelection[id];
+  const handleSaveBank =async (id: string) => {
+    const value = BankSelection;
+    const payload = {bankId:value};
     if (value) {
-      message.success(`Bank for ${id} saved: ${value}`);
-      // Implement save logic here
+      try {
+        setLoading(true);
+        const response:any = await updateWithdrawRequest(id,payload);
+        if (response.status == 200) {
+          message.success('Successfuly Updated');
+        }
+      } catch {
+        message.error('Error Occar');
+      } finally {
+        setLoading(false); // Stop loading once data is fetched
+      }
+      setLoading(false);
     } else {
       message.warning("Please select a bank before saving.");
     }
   };
 
   // Function to handle save button click
-  const handleSave = (id: string) => {
-    const value = TrxID[id];
-    console.log();
+  const handleSave =async (id: string) => {
+    const value = TrxID;
+    
+    const payload ={
+      TrxID: TrxID
+    };
 
     if (value) {
-      message.success(`TrxID for ${id} saved: ${value}`);
-      // Implement your save logic here, e.g., API call
+      
+      try {
+        setLoading(true);
+        const response:any = await updateWithdrawRequest(id,payload);
+        if (response.status == 200) {
+          message.success('Successfuly Updated');
+        }
+      } catch {
+        message.error('Error Occar');
+      } finally {
+        setLoading(false); // Stop loading once data is fetched
+      }
+      setLoading(false);
     } else {
       message.warning("Please enter a Bank TrxID before saving.");
     }
@@ -304,23 +327,27 @@ const PayOut = () => {
           </div>
          
         </Form> */}
-        {
-          Role==="merchant" &&
+        {Role === "merchant" && (
           <div className="flex justify-end">
-          <Button onClick={gotoCreateWithdrawRequest} className="!bg-orange-600 !text-white">
-            Create Withdraw Request
-          </Button>
-        </div>
-        }
+            <Button
+              onClick={gotoCreateWithdrawRequest}
+              className="!bg-orange-600 !text-white"
+            >
+              Create Withdraw Request
+            </Button>
+          </div>
+        )}
         <div className="mt-2">
-          <Table
-            dataSource={data?.length > 0 ? data : []}
-            bordered
-            columns={columns}
-            rowKey="id" // Ensure rowKey is set to a unique field like 'id'
-            loading={loading} // Show loading spinner while data is being fetched
-            pagination={false}
-          />
+          {hydrated && (
+            <Table
+              dataSource={data?.length > 0 ? data : []}
+              bordered
+              columns={columns}
+              rowKey="id"
+              loading={loading}
+              pagination={false}
+            />
+          )}
         </div>
       </Card>
     </div>

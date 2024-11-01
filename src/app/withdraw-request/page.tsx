@@ -1,39 +1,45 @@
-'use client'
-import CommonCard from '@/features/ui/card/common-card'
-import { Button, Form, Input, message, Select } from 'antd'
-import React, { useState } from 'react'
-
+"use client";
+import { createWithdrawRequest } from "@/api/withdraw";
+import CommonCard from "@/features/ui/card/common-card";
+import { Button, Form, Input, message, Select } from "antd";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 const Page = () => {
+  const router = useRouter();
   const { Option } = Select;
   const [loading, setLoading] = useState<boolean>(false);
 
   const onFinish = async (values: any) => {
     setLoading(true);
+    const payload = {
+      paymentMethod: values.paymentMethod,
+      amount: values.amount,
+      currency: values.currency,
+      payerReference: values.payerReference,
+    };
 
-
-    // try {
-    //   await createUserAndMerchant(user, merchant);
-    //   message.success('User and merchant created successfully!');
-    //   // router.push('/success-page'); // Redirect to success page
-    // } catch {
-    //   message.error("Couldn't create new merchant"); // Display error message
-    // } finally {
-    //   setLoading(false);
-    // }
+    try {
+      await createWithdrawRequest(payload);
+      message.success('User and merchant created successfully!');
+      router.push('/pay-out'); // Redirect to success page
+    } catch {
+      message.error("Couldn't create new merchant"); // Display error message
+    } finally {
+      setLoading(false);
+    }
   };
   return (
-     <CommonCard title="Create A Withdraw Request" bordered={false}>
-       <Form
-      name="create_user_form"
-      layout="vertical"
-      initialValues={{
-        paymentMethod: undefined,
-        currency: undefined,
-      }}
-      onFinish={onFinish}
-    >
-      <div className=" grid grid-cols-1 md:grid-cols-5 lg:grid-cols-5 gap-x-4">
-      
+    <CommonCard title="Create A Withdraw Request" bordered={false}>
+      <Form
+        name="create_user_form"
+        layout="vertical"
+        initialValues={{
+          paymentMethod: undefined,
+          currency: undefined,
+        }}
+        onFinish={onFinish}
+      >
+        <div className=" grid grid-cols-1 md:grid-cols-5 lg:grid-cols-5 gap-x-4">
           <Form.Item
             label="Payment Method"
             name="paymentMethod"
@@ -46,15 +52,13 @@ const Page = () => {
               <Option value="nagad">Nagad</Option>
             </Select>
           </Form.Item>
-
           <Form.Item
             label="Amount"
             name="amount"
             rules={[{ required: true, message: "Please enter the amount!" }]}
           >
-            <Input type="number" placeholder="Enter amount" />
+            <Input type="text" placeholder="Enter amount" />
           </Form.Item>
-
           <Form.Item
             label="Currency"
             name="currency"
@@ -65,7 +69,6 @@ const Page = () => {
               <Option value="usd">USD</Option>
             </Select>
           </Form.Item>
-
           <Form.Item
             label="Payer Reference"
             name="payerReference"
@@ -75,18 +78,20 @@ const Page = () => {
           >
             <Input placeholder="Enter payer reference" />
           </Form.Item>
-        
 
-      <Form.Item>
-        <Button className='!bg-orange-600 !text-white mt-8' htmlType="submit" loading={loading}>
-          Submit
-        </Button>
-      </Form.Item>
-      </div>
-     
-    </Form>
-     </CommonCard>
-  )
-}
+          <Form.Item>
+            <Button
+              className="!bg-orange-600 !text-white mt-8 !w-[100px]"
+              htmlType="submit"
+              loading={loading}
+            >
+              Submit
+            </Button>
+          </Form.Item>
+        </div>
+      </Form>
+    </CommonCard>
+  );
+};
 
-export default Page
+export default Page;
