@@ -99,7 +99,7 @@ const CreateUserMerchantForm: React.FC = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button className='!bg-orange-600 !text-white mt-6' htmlType="submit" loading={loading}>
+        <Button className='!bg-orange-600 !text-white mt-8' htmlType="submit" loading={loading}>
           Submit
         </Button>
       </Form.Item>

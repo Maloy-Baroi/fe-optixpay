@@ -21,6 +21,7 @@ import {
   Upload,
   Form,
   message,
+  Select,
 } from "antd";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -34,6 +35,7 @@ interface HeaderProps {
 }
 
 const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
+  const { Option } = Select;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [data, setData] = useState<any>([]);
   const [selectedItem, setSelectedItem] = useState<any>();
@@ -116,10 +118,11 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
   const handleSubmit = async (values: any) => {
     setLoading(true);
     const payload = {
-      address_trc: addressTRCId, // Capture address from state
+      address_trc: addressTRCId,
+      currency:values.currency, 
       amount: parseFloat(values.amount),
       trxID: values.trxId,
-      payment_screenshot: fileList[0]?.thumbUrl || null, // Extract thumbUrl or set to null if no file
+      payment_screenshot: fileList[0]?.thumbUrl || null, 
       transaction_type: "prepayment"
     };
 
@@ -274,7 +277,16 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
                 }
               />
             </Form.Item>
-
+            <Form.Item
+            label="Currency"
+            name="currency"
+            rules={[{ required: true, message: "Please select a currency!" }]}
+          >
+            <Select placeholder="Select Currency">
+              <Option value="bdt">BDT</Option>
+              <Option value="usd">USD</Option>
+            </Select>
+          </Form.Item>
             <Form.Item
               name="amount"
               label="Amount"

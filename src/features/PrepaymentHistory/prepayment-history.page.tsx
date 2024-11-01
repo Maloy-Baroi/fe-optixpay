@@ -193,7 +193,7 @@ const PrepaymentHistory = () => {
     <div>
       {/* <ModuleHeader title="Prepayment History" /> */}
       <CommonCard title="Prepayment  History" bordered={false}>
-        <Card bordered={false} className="!shadow">
+        {/* <Card bordered={false} className="!shadow">
           {" "}
           <Form form={form} onFinish={handleSubmit} layout="vertical">
             <div className=" grid grid-cols-1 md:grid-cols-3  gap-x-4">
@@ -244,7 +244,7 @@ const PrepaymentHistory = () => {
             </div>
             
           </Form>
-        </Card>
+        </Card> */}
 
         <div className="mt-4">
           <Table
