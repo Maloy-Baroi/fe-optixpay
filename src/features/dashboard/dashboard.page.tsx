@@ -171,9 +171,9 @@ const Dashboard = () => {
             <div>
               <Title level={4}>Total Revenue</Title>
               <Text style={{ fontSize: "24px", fontWeight: "bold" }}>$17,086.92</Text>
-              <Text style={{ color: "green", marginLeft: "8px" }}>
+              {/* <Text style={{ color: "green", marginLeft: "8px" }}>
                 <ArrowUpOutlined /> 8.34%
-              </Text>
+              </Text> */}
               <Text style={{ display: "block", color: "#8c8c8c" }}>Gained $9,721.54 this month</Text>
             </div>
           </div>
@@ -211,9 +211,9 @@ const Dashboard = () => {
             <Title level={4}>Total Income</Title>
             <Text style={{ fontSize: "32px", fontWeight: "bold" }}>$25,300.00</Text>
             <div>
-              <Text style={{ color: "green", fontSize: "14px" }}>
+              {/* <Text style={{ color: "green", fontSize: "14px" }}>
                 <ArrowUpOutlined /> 12.5% Increase
-              </Text>
+              </Text> */}
             </div>
           </Card>
         </Col>
@@ -224,9 +224,9 @@ const Dashboard = () => {
             <Title level={4}>Total Bkash Payment</Title>
             <Text style={{ fontSize: "32px", fontWeight: "bold" }}>$10,750.00</Text>
             <div>
-              <Text style={{ color: "green", fontSize: "14px" }}>
+              {/* <Text style={{ color: "green", fontSize: "14px" }}>
                 <ArrowUpOutlined /> 8.3% Increase
-              </Text>
+              </Text> */}
             </div>
           </Card>
         </Col>
@@ -237,9 +237,9 @@ const Dashboard = () => {
             <Title level={4}>Total Nagad Payment</Title>
             <Text style={{ fontSize: "32px", fontWeight: "bold" }}>$8,500.00</Text>
             <div>
-              <Text style={{ color: "red", fontSize: "14px" }}>
+              {/* <Text style={{ color: "red", fontSize: "14px" }}>
                 <ArrowDownOutlined /> 5.2% Decrease
-              </Text>
+              </Text> */}
             </div>
           </Card>
         </Col>

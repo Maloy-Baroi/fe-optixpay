@@ -47,11 +47,11 @@ const Menu = ({ toggle }: MenuProps) => {
     <div className="flex flex-col h-auto">
       {menuItems.map((group, index) => (
         <div key={index}>
-          {group.group !== "Dashboard" && (
+          {/* {group.group !== "Dashboard" && (
             <div className="text-[#454f5b] px-2 py-1 text-sm uppercase tracking-widest font-bold">
               {group.group}
             </div>
-          )}
+          )} */}
           {group.items
             .filter((item) => permissions && item.permission == 'admin')
             .map((item, idx) => (

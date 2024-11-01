@@ -31,6 +31,12 @@ export const menuItems = [
         permission: "admin",
       },
       {
+        label: "Deposit",
+        icon: SafetyCertificateOutlined  ,
+        path: "/pay-in",
+        permission: "agent",
+      },
+      {
         label: "Withdraw",
         icon:  SafetyOutlined,
         path: "/pay-out",
@@ -88,13 +94,13 @@ export const menuItems = [
         permission: "canAddBankAccount",
       },
       {
-        label: "Add Merchant",
+        label: "Merchant Management",
         icon: UserAddOutlined,
         path: "/create-merchant",
         permission: "admin",
       },
       {
-        label: "Add Agent",
+        label: "Agent Management",
         icon: UsergroupAddOutlined ,
         path: "/create-agent",
         permission: "admin",
