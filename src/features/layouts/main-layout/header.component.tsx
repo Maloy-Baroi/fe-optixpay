@@ -126,7 +126,7 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
     setLoading(true);
     const payload = {
       address_trc: addressTRCId,
-      currency:values.currency,
+      // currency:values.currency,
       amount: parseFloat(values.amount),
       trxID: values.trxId,
       payment_screenshot: fileList[0]?.thumbUrl || null,
