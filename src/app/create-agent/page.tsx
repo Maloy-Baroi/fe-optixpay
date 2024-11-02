@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {Button, Card, message, Table, Tag} from "antd";
+import { Button, Card, message, Table, Tag } from "antd";
 import { useRouter } from "next/navigation";
-import { getBankData } from "@/api/bank";
 import Cookies from "js-cookie";
 import CommonCard from "@/features/ui/card/common-card";
-import {getAgents, getMerchants} from "@/api/merchant";
+import { getAgents } from "@/api/merchant";
+
+// Define columns for Ant Design table
 const columns = [
   {
     title: "ID",
@@ -19,85 +20,99 @@ const columns = [
   },
   {
     title: "Name",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "full_name",
+    key: "full_name",
   },
   {
     title: "Email",
     dataIndex: "email",
     key: "email",
+    render: (text:any) => text || "-", // Display '-' if email is null
   },
   {
     title: "Contact Number",
-    dataIndex: "contact_number",
-    key: "contact_number",
+    dataIndex: "phone_number",
+    key: "phone_number",
   },
-  {
-    title: "API Key",
-    dataIndex: "api_key",
-    key: "api_key",
-    render: (text: string) => (
-      <div style={{ wordBreak: "break-all" }}>{text}</div> // Makes the API key more readable in the table
-    ),
-  },
-  {
-    title: "Secret Key",
-    dataIndex: "secret_key",
-    key: "secret_key",
-    render: (text: string) => (
-      <div style={{ wordBreak: "break-all" }}>{text}</div> // Makes the secret key more readable in the table
-    ),
-  },
+  // {
+  //   title: "API Key",
+  //   key: "api_key",
+  //   render: (record:any) => {
+  //     // Access all API keys from agent_bank_details and join them
+  //     const apiKeys = record.agent_bank_details
+  //       .flat()
+  //       .map((detail:any) => detail.api_key)
+  //       .join(", ");
+  //     return <div style={{ wordBreak: "break-all" }}>{apiKeys || "-"}</div>;
+  //   },
+  // },
+  // {
+  //   title: "Secret Key",
+  //   key: "secret_key",
+  //   render: (record: any) => {
+  //     // Access all Secret keys from agent_bank_details and join them
+  //     const secretKeys = record.agent_bank_details
+  //       .flat()
+  //       .map((detail: any) => detail.secret_key)
+  //       .join(", ");
+  //     return <div style={{ wordBreak: "break-all" }}>{secretKeys || "-"}</div>;
+  //   },
+  // },
   {
     title: "Status",
-    dataIndex: "is_active",
+    dataIndex: ["agent_bank_details", 0, "is_active"], // Only checks first bank detail's status
     key: "is_active",
-    render: (status: string) => (
-      <Tag color={status === "active" ? "green" : "red"}>
-        {status?.toUpperCase()}
+    render: (isActive: any) => (
+      <Tag color={isActive ? "green" : "red"}>
+        {isActive ? "ACTIVE" : "INACTIVE"}
       </Tag>
     ),
   },
   {
     title: "Registration Date",
-    dataIndex: "registration_date",
-    key: "registration_date",
+    dataIndex: "date_of_birth",
+    key: "date_of_birth",
   },
 ];
-const CreateAgent: React.FC = () => {
+
+
+const CreateAgent = () => {
   const router = useRouter();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
   const gotoCreateAgent = () => {
     router.push("/new-agent");
   };
-  const fetchMerchants = async () => {
-    setLoading(true);
-    setError(null); // Reset error before fetching
-    try {
-      const token:string|undefined = Cookies.get("accessToken");
-      const response = await getAgents(token);
-      setData(response.data);  // Assuming response.data contains the merchants array
-    } catch {
-      setError('Failed to fetch merchant data');
-      message.error('Error fetching merchants');
-    } finally {
-      setLoading(false);  // Stop loading once data is fetched
-    }
-    setLoading(false);
-  };
-  useEffect(() => {
-    fetchMerchants();
-  }, []);
 
+  const fetchAgents = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const token = Cookies.get("accessToken");
+      const response = await getAgents(token);
+      // Ensure response data is structured correctly
+      if (response?.data) {
+        setData(response.data);
+      }
+    } catch {
+      // setError("Failed to fetch agent data");
+      message.error("Error fetching agents");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAgents();
+  }, []);
 
   return (
     <>
       {error && <div>{error}</div>}
       <CommonCard title="Agent Details" bordered={false}>
-      <div className="flex justify-end">
+        <div className="flex justify-end">
           <Button onClick={gotoCreateAgent} className="!bg-orange-600 !text-white">
             Create New Agent
           </Button>
@@ -107,14 +122,12 @@ const CreateAgent: React.FC = () => {
             dataSource={data?.length > 0 ? data : []}
             bordered
             columns={columns}
-            rowKey="id" // Ensure rowKey is set to a unique field like 'id'
-            loading={loading} // Show loading spinner while data is being fetched
+            rowKey="id"
+            loading={loading}
             pagination={false}
           />
         </div>
       </CommonCard>
-
-
     </>
   );
 };

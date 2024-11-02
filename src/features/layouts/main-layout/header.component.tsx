@@ -50,6 +50,8 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const [role, setRole] = useState<string>();
+
   const router = useRouter();
 
   const handleLogout = () => {
@@ -64,6 +66,8 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
   useEffect(() => {
     fetchRateOfExchenge();
     fetchCriptoUrl();
+    const group = Cookies.get('role');
+    setRole(group);
   }, []);
   const fetchRateOfExchenge = async () => {
     setLoading(true);
@@ -119,10 +123,10 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
     setLoading(true);
     const payload = {
       address_trc: addressTRCId,
-      currency:values.currency, 
+      currency:values.currency,
       amount: parseFloat(values.amount),
       trxID: values.trxId,
-      payment_screenshot: fileList[0]?.thumbUrl || null, 
+      payment_screenshot: fileList[0]?.thumbUrl || null,
       transaction_type: "prepayment"
     };
 
@@ -191,17 +195,25 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
             onClick={toggle}
           />
           <div className="flex justify-end items-center gap-5">
-            <div className="">
-              <Button
-                name="Prepayment"
-                size="large"
-                className="!bg-orange-600 !text-white !border-none"
-                onClick={showModal}
-              >
-                <span>Prepayment</span>
-                <span></span>
-              </Button>
-            </div>
+            {
+              role === 'agent' ? (
+                <div className="">
+                  <Button
+                    name="Prepayment"
+                    size="large"
+                    className="!bg-orange-600 !text-white !border-none"
+                    onClick={showModal}
+                  >
+                    <span>Prepayment</span>
+                    <span></span>
+                  </Button>
+                </div>
+              )
+                :
+                (
+                  <></>
+                )
+            }
             <div className="">
               <Button
                 name="Balance"

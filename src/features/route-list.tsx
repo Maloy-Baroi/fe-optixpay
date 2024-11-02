@@ -19,7 +19,13 @@ export const menuItems = [
         path: "/",
         permission: "admin",
       },
-    ],
+      {
+        label: "Dashboard",
+        icon: HomeOutlined,
+        path: "/",
+        permission: "agent",
+      },
+    ]
   },
   {
     // group: "Transactions",
@@ -41,6 +47,18 @@ export const menuItems = [
         icon:  SafetyOutlined,
         path: "/pay-out",
         permission: "admin",
+      },
+      {
+        label: "Withdraw",
+        icon:  SafetyOutlined,
+        path: "/pay-out",
+        permission: "merchant",
+      },
+      {
+        label: "Withdraw",
+        icon:  SafetyOutlined,
+        path: "/pay-out",
+        permission: "agent",
       },
       // {
       //   label: "Pay Out Approval",
@@ -65,6 +83,12 @@ export const menuItems = [
         path: "/prepayment-history",
         permission: "admin",
       },
+      {
+        label: "Prepayment History",
+        icon: HistoryOutlined ,
+        path: "/prepayment-history",
+        permission: "agent",
+      },
     ],
   },
   {
@@ -81,6 +105,18 @@ export const menuItems = [
         icon:  HistoryOutlined,
         path: "/pay-in-approval",
         permission: "admin",
+      },
+      {
+        label: "Balance History",
+        icon:  HistoryOutlined,
+        path: "/pay-in-approval",
+        permission: "merchant",
+      },
+      {
+        label: "Balance History",
+        icon:  HistoryOutlined,
+        path: "/pay-in-approval",
+        permission: "agent",
       },
     ],
   },
