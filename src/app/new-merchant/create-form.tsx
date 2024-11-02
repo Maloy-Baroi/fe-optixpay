@@ -5,9 +5,11 @@ import {Form, Input, Button, message} from 'antd';
 // import { useRouter } from 'next/navigation';
 import {createUserAndMerchant, UserValues, MerchantValues} from '@/api/merchant'; // Adjust the path
 import CommonCard from '@/features/ui/card/common-card';
+import {useRouter} from "next/navigation";
 
 const CreateUserMerchantForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const onFinish = async (values: any) => {
     setLoading(true);
@@ -28,8 +30,9 @@ const CreateUserMerchantForm: React.FC = () => {
 
     try {
       const response = await createUserAndMerchant(user, merchant);
-      if (response.status) {
+      if (response.status == 201) {
         message.success('User and merchant created successfully!');
+        router.push('/')
       } else {
         message.error('User and merchant created failed!');
       }
