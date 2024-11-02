@@ -36,18 +36,27 @@ const PayOut = () => {
   useEffect(() => {
     setHydrated(true); // Mark component as hydrated on the client
   }, []);
-  // 
+  //
 
   // console.log(Role);
 
   const columns = [
     {
-      title: "Order ID || Date and Time",
+      title: "Order ID",
       dataIndex: "trxID",
       key: "id",
       render: (text: any, record: any) => (
         <>
           <div>{record.trxID}</div>
+        </>
+      ),
+    },
+    {
+      title: "Date and Time",
+      dataIndex: "trxID",
+      key: "id",
+      render: (text: any, record: any) => (
+        <>
           <div>{record.created_at}</div>
         </>
       ),
@@ -170,7 +179,7 @@ const PayOut = () => {
   // const handleReset = () => {
   //   form.resetFields();
   // };
- 
+
 
   const fetchWidthdrawData = async () => {
     try {
@@ -243,13 +252,13 @@ const PayOut = () => {
   // Function to handle save button click
   const handleSave =async (id: string) => {
     const value = TrxID;
-    
+
     const payload ={
       TrxID: TrxID
     };
 
     if (value) {
-      
+
       try {
         setLoading(true);
         const response:any = await updateWithdrawRequest(id,payload);
@@ -321,11 +330,11 @@ const PayOut = () => {
               <Button htmlType="button" onClick={handleReset} className="">
                 Reset
               </Button>
-             
+
             </Form.Item>
           </div>
           </div>
-         
+
         </Form> */}
         {Role === "merchant" && (
           <div className="flex justify-end">

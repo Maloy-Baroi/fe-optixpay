@@ -14,9 +14,8 @@ const CreateMerchant: React.FC = () => {
   }
 
   return (
-    <CommonCard title="Merchant Details" bordered={false}> 
+    <CommonCard title="Merchant Details" bordered={false}>
       <div>
-      
          <div className="flex justify-end">
           <Button onClick={gotoCreateMerchant} className="mb-2 !bg-orange-600 !text-white">
             Create New Merchant
@@ -25,8 +24,8 @@ const CreateMerchant: React.FC = () => {
         <MerchantDataTable />
       </div>
     </CommonCard>
-      
-    
+
+
   );
 }
 

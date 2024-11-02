@@ -116,7 +116,7 @@ const PayInApproval = () => {
 
   const [pagination, setPagination] = useState<TablePaginationConfig>({
     current: 1,
-    pageSize: 3, // Page size is set to 10
+    pageSize: 20, // Page size is set to 10
     total: data.length, // Total number of records
 });
 
@@ -125,9 +125,9 @@ const handleTableChange = (newPagination: TablePaginationConfig) => {
 };
 
   return (
-    
+
     <div>
-      
+
       <CommonCard title="Balance History" bordered={false}>
         {/* <Card bordered={false} className="!shadow">
           <Form form={form} onFinish={handleSubmit} layout="vertical">

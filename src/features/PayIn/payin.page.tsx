@@ -172,11 +172,11 @@ const PayIn = () => {
                   >
                     Reset
                   </Button>
-                  
+
                 </Form.Item>
               </div>
               </div>
-             
+
             </Form> */}
           <div className="mt-2">
             <Table
@@ -199,12 +199,21 @@ export default PayIn;
 
 const columns = [
   {
-    title: "Order ID || Date and Time",
+    title: "Order ID",
     dataIndex: "trxID",
     key: "id",
     render: (text: any, record: any) => (
       <>
         <div>{record.trxID}</div>
+      </>
+    ),
+  },
+  {
+    title: "Date and Time",
+    dataIndex: "trxID",
+    key: "id",
+    render: (text: any, record: any) => (
+      <>
         <div>{record.created_at}</div>
       </>
     ),

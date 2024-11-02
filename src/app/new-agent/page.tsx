@@ -163,7 +163,7 @@ const Page = () => {
                 },
               ]}
             >
-              <Input placeholder="Email"/>
+              <Input type={"email"} placeholder="Email"/>
             </Form.Item>
             <Form.Item
               name="password"
@@ -201,7 +201,7 @@ const Page = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="Email"/>
+                  <Input type={"email"} placeholder="Email"/>
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>

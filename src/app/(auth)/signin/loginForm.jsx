@@ -24,7 +24,7 @@ const LoginForm = () => {
             const data = await loginApiCall(formData);
 
             // Check if login is successful
-            if (data.access && data.refresh) {
+            if (data.access && data.refresh && data.groups && data.username) {
                 // Set cookies
                 setCookie('accessToken', data.access, {
                     maxAge: 10 * 60 * 60, // 10 hours
@@ -44,14 +44,20 @@ const LoginForm = () => {
                     sameSite: 'strict'
                 });
 
+                setCookie('name', data.username, {
+                    maxAge: 60 * 60 * 24 * 7, // 1 week
+                    path: '/',
+                    sameSite: 'strict'
+                });
+
                 message.success("Login Success!");
 
                 // Redirect based on user type
-                if (data.new_user) {
-                  router.push('/profile-setup');
-                } else {
-                    router.push('/');
-                }
+                // if (data.new_user) {
+                //   router.push('/profile-setup');
+                // } else {
+                //     router.push('/');
+                // }
             } else {
                 message.error("Invalid Email or Password! Please try again with correct credentials.");
             }

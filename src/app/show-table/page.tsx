@@ -101,7 +101,7 @@ const ShowTable = () => {
         dataSource={data}
         columns={columns}
         rowKey="id" // unique key for each row
-        pagination={{ pageSize: 5 }} // Set pagination for easier reading
+        pagination={{ pageSize: 10 }} // Set pagination for easier reading
       />
     </div>
   );

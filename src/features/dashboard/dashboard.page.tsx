@@ -254,7 +254,7 @@ const Dashboard = () => {
         <Table
           dataSource={transactionData}
           columns={transactionColumns}
-          pagination={{ pageSize: 5 }}
+          pagination={{ pageSize: 10 }}
         />
       </Card>
     </div>

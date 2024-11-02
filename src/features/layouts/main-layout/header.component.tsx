@@ -51,6 +51,7 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
   } = theme.useToken();
 
   const [role, setRole] = useState<string>();
+  const [name, setName] = useState<string>();
 
   const router = useRouter();
 
@@ -67,7 +68,9 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
     fetchRateOfExchenge();
     fetchCriptoUrl();
     const group = Cookies.get('role');
+    const name = Cookies.get('name');
     setRole(group);
+    setName(name);
   }, []);
   const fetchRateOfExchenge = async () => {
     setLoading(true);
@@ -242,7 +245,9 @@ const SiteHeader: FC<HeaderProps> = ({ collapsed, toggle }) => {
                         ? {
                             key: "1",
                             icon: <UserOutlined />,
-                            label: <span onClick={() => {}}>Name</span>,
+                            label: <span onClick={() => {}}>
+                              {name}
+                            </span>,
                           }
                         : null,
                       {
