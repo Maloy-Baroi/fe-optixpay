@@ -85,7 +85,7 @@ const Dashboard = () => {
         <br />
         <div className="flex items-center justify-center">
           {
-            amount && amount >= 500 && gateway.length > 0 ? (
+            amount && amount >= 5 && gateway.length > 0 ? (
               <Button type="primary" icon={<SendOutlined />} onClick={handleClick}>
                 Pay Now
               </Button>
