@@ -47,7 +47,7 @@ const Dashboard = () => {
                   { required: true, message: "Please input Payment Amount" },
                   {
                     validator: (_, value) =>
-                      value && value >= 500
+                      value && value >= 5
                         ? Promise.resolve()
                         : Promise.reject(new Error("Amount must be more than 500")),
                   },
