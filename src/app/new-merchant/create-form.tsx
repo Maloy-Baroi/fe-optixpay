@@ -94,7 +94,7 @@ const CreateUserMerchantForm: React.FC = () => {
             label="Merchant Email"
             rules={[{required: true, message: 'Please input the merchant email!'}]}
           >
-            <Input placeholder="Merchant Email"/>
+            <Input type={"email"} placeholder="Merchant Email"/>
           </Form.Item>
 
           <Form.Item
