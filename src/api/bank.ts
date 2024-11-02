@@ -20,10 +20,10 @@ const BACKEND_DOMAIN = process.env.NEXT_PUBLIC_DEVELOPMENT === "true"
 
   export const createBankAccount = async (payload:any) => {
     console.log(typeof(payload));
-    
+
     try {
       // Make API request to create user and merchant
-      const response = await axios.post(`${BACKEND_DOMAIN}/app-agent/payment-providers/`, 
+      const response = await axios.post(`${BACKEND_DOMAIN}/app-agent/payment-providers/`,
        payload
       );
       return response; // Return the data from the response
@@ -36,7 +36,7 @@ const BACKEND_DOMAIN = process.env.NEXT_PUBLIC_DEVELOPMENT === "true"
   export const updateBankAccountStatus = async (payload:any,id:any) => {
     try {
       // Make API request to create user and merchant
-   const response=await axios.patch(`${BACKEND_DOMAIN}/app-agent/payment-providers/${id}`, payload);
+   const response=await axios.patch(`${BACKEND_DOMAIN}/app-agent/payment-providers/${id}/`, payload);
       return response.data; // Return the data from the response
     } catch (error) {
       // Handle error and throw a new error with a message

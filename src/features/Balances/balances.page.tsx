@@ -39,8 +39,10 @@ const Balances = () => {
       title: "Bank Status",
       dataIndex: "is_active",
       key: "is_active",
-      render: (isActive:any, record:any) => (
-        <Switch
+      render: (isActive:any, record:any) => {
+        console.log(record);
+        return (
+          <Switch
           style={{
             backgroundColor: isActive ? "green" : "red",  // Green for active, red for inactive
             borderColor: isActive ? "green" : "red",      // Border color to match the background
@@ -50,14 +52,15 @@ const Balances = () => {
           checkedChildren="Active"
           unCheckedChildren="Inactive"
         />
-      ),
+        )
+    },
     },
   ];
   const router = useRouter();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const gotoCreateAgent = () => {
     router.push("/new-bank-account");
   };
@@ -91,11 +94,12 @@ const Balances = () => {
     try {
       // Construct the payload for updating the status
       const payload = { is_active: isActive };
-      await updateBankAccountStatus(payload,Id);
+      await updateBankAccountStatus(payload, Id);
       // API call to update the status
-     
+
       // Optionally show a success message
       message.success(`Status updated to ${isActive ? "Active" : "Inactive"}`);
+      fetchBankData();
     } catch (error) {
       // Handle any error that occurs
       message.error("Failed to update status. Please try again.");
@@ -113,7 +117,7 @@ const Balances = () => {
         <Table dataSource={data} columns={columns} loading={loading}/>
     </div>
        </CommonCard>
-      
+
     </div>
   );
 };
