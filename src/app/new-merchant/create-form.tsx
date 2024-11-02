@@ -30,7 +30,7 @@ const CreateUserMerchantForm: React.FC = () => {
 
     try {
       const response = await createUserAndMerchant(user, merchant);
-      if (response.status == 201) {
+      if (response) {
         message.success('User and merchant created successfully!');
         router.push('/')
       } else {
