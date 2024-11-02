@@ -5,6 +5,7 @@ import {UploadOutlined} from "@ant-design/icons";
 import {getBankData} from "@/api/bank";
 import Cookies from "js-cookie";
 import axios from "axios";
+import {useRouter} from "next/navigation";
 
 const {Option} = Select;
 
@@ -22,6 +23,8 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [selectedProviders, setSelectedProviders] = useState<any>([]);
   console.log(selectedProviders);
+
+  const router = useRouter();
 
   const fetchBankData = async () => {
     setLoading(true);
@@ -89,6 +92,13 @@ const Page = () => {
       console.log("Try")
         const response = await axios.post(`${BACKEND_DOMAIN}/app-agent/create-user-agent-provider/`, payload);
         console.log('Submission successful', response.data);
+        if (response.status == 201) {
+          message.success("Created Agent Successfully!");
+          router.push('/create-agent');
+        }
+        else {
+          message.info("Something went wrong!");
+        }
         // Optionally, handle further logic here, e.g., redirecting the user or updating UI state
     } catch (error) {
         console.log(error)
