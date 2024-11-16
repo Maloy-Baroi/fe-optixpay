@@ -239,22 +239,27 @@ export const initiatePayment = async (amount, orderId) => {
 };
 
 // Function to check payment callback
-export const verifyPayment = async (paymentId) => {
+const verifyPayment = async (paymentId, orderId) => {
   try {
-    const response = await axios.get(`${BACKEND_DOMAIN}/payment-callback/?payment_id=${paymentId}`);
+    const response = await axios.post(`${BACKEND_DOMAIN}/app-payment/nagad/complete/`, {
+      payment_id: paymentId,  // Key for payment ID
+      order_id: orderId,      // Key for order ID
+    });
     console.log('Payment Callback Response:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error in payment callback:', error);
-    throw error;  // Re-throw error for further handling
+    throw error; // Re-throw error for further handling
   }
 };
 
 
 
+
 export {
   checkUserPaidStatus, depositBKashPayCreate,
-  depositBKashPayExecute, depositBKashPayGrant, depositListApiCall
+  depositBKashPayExecute, depositBKashPayGrant, depositListApiCall,
+  verifyPayment
 };
 
 

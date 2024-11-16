@@ -51,6 +51,7 @@ const LoginForm = () => {
                 });
 
                 message.success("Login Success!");
+                router.push('/');
 
                 // Redirect based on user type
                 // if (data.new_user) {

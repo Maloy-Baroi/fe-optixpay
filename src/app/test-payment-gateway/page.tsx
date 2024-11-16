@@ -47,9 +47,9 @@ const Dashboard = () => {
                   { required: true, message: "Please input Payment Amount" },
                   {
                     validator: (_, value) =>
-                      value && value >= 5
+                      value && value >= 1
                         ? Promise.resolve()
-                        : Promise.reject(new Error("Amount must be more than 500")),
+                        : Promise.reject(new Error("Amount must be more than 1")),
                   },
                 ]}
               >
@@ -85,7 +85,7 @@ const Dashboard = () => {
         <br />
         <div className="flex items-center justify-center">
           {
-            amount && amount >= 5 && gateway.length > 0 ? (
+            amount && amount >= 1 && gateway.length > 0 ? (
               <Button type="primary" icon={<SendOutlined />} onClick={handleClick}>
                 Pay Now
               </Button>
