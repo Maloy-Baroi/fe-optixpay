@@ -30,7 +30,7 @@ const CallBackURL: React.FC = () => {
         const response = depositBKashPayExecute(payment_id, id_token, x_app_token, authToken, pay_model_id);
         response?.then(data => {
           if (data) {
-            // route.push('/paymentSuccess');
+            route.push('/paymentSuccess');
           }
         })
       }
