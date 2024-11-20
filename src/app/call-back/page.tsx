@@ -39,7 +39,7 @@ const CallBackURL: React.FC = () => {
         const response = verifyPayment(payment_id, orderId);
         response.then(data => {
           if (data['message'] == 'Successfully Paid') {
-            // route.push('/paymentSuccess');
+            route.push('/paymentSuccess');
           }
         })
       }
